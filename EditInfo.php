@@ -9,8 +9,8 @@ session_start();
 // Create connection
 $conn = mysqli_connect($servername,$username,$password,$dbname);
 
-	echo "<form action='' mathod='get'>";
- echo "Name: <input type= 'text'  name= 'name'  value="$name">;
+echo "<form action='' mathod='get'>";
+echo "Name: <input type= 'text'  name= 'name'  value="$name">;
 echo "Address: <input type= 'text'  name= 'address' value="$address">;
 echo "<input type= 'submit'  name= 'submit'  value= 'Submit' ><br>";
 echo"</form>";

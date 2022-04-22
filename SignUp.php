@@ -5,7 +5,7 @@ $password = "";
 $dbname = "web-project";
 
 $pwdMsg = "Minimum 5 characters";
-$nameErr = $emailErr = "";
+$nameErr = $emailErr = $nationIDErr = "";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -33,6 +33,9 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	}
 	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
 		$emailErr = "Invalid Email Address";
+	}
+	else if (strlen($_POST['Nationalid']) < 14) {
+		$nationIDErr = "Invalid National ID number";
 	}
 	else
 	{
@@ -63,7 +66,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	Personal Picture:*<br>
 	<input type="file" name="Profilepic"><br>
 	National ID:*<br>
-	<input type="file" name="Nationalid"><br>
+	<input type="text" name="Nationalid"> <?php echo $nationIDErr ?> <br>
 	Password:*<br>
 	<input type="Password" name="Password"> <?php echo $pwdMsg ?><br>
 	Confrim Password:*<br>
