@@ -1,3 +1,6 @@
+<html>
+	<head><title>Sign Up</title></head>
+	<body>
 <?php
 session_start();
 $servername = "localhost";
@@ -11,9 +14,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if(isset($_POST['Submit'])){ //check if form was submitted
     $sql="select * from users where Email = '".$_POST["Email"]."'";
 	$result = mysqli_query($conn, $sql);
-	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
-	$resultID = mysqli_fetch_array($conn, $sqlID);
-	echo "$resultID";
+/* 	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
+	$resultID = mysqli_fetch_array($conn, $sqlID); */
 	if(empty($_POST['Fname']) || empty($_POST['Lname']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']) || empty($_POST['NoOfGuests']))
 	{
 		echo "<script>
@@ -36,7 +38,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
-	else if ($row1 = mysqli_fetch_array($resultID)) { // Not Working
+	/* else if ($row1 = mysqli_fetch_array($resultID)) { // Not Working
 		echo "<script>
 		alert('There is already an account created with this National ID')
 		</script>";
@@ -45,7 +47,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
-	}
+	} */
 	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
 		echo "<script>
 		alert('Only letters and white space allowed')
@@ -116,18 +118,30 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Fname'] = $_POST['Fname'];
 		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if ($_POST['NoOfGuests'] > 4) {
+		echo "<script>
+		alert('Maximum number of Guests is 4')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
 	}
 	else
 	{
 		session_unset();
 		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 		$sql="insert into users(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
 		if($result)	
 		{
-			header("Location:home.php");
+			header("Location:Guests.php");
 		}
 		else
 		{
@@ -154,9 +168,8 @@ if(isset($_POST['Submit'])){ //check if form was submitted
             <input type="file" name="Profilepic" value="<?php if (isset($_SESSION['Profilepic']) && !empty($_SESSION['Profilepic'])) echo $_SESSION['Profilepic']; ?>"><br>
             National ID:*<br>
             <input type="text" name="Nationalid" placeholder="Enter your National ID (14 digits)" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>"><br>
-            <h3>Family Information</h3>
             Number Of guests:<br>
-            <input type="text" name="NoOfGuests" placeholder="Maximum 4 guests" max="4"><br>
+            <input type="text" name="NoOfGuests" id="NoOfGuests" placeholder="Maximum 4 guests" value="<?php if (isset($_SESSION['NoOfGuests']) && !empty($_SESSION['NoOfGuests'])) echo $_SESSION['NoOfGuests']; ?>"><br>
             Password:*<br>
             <input type="Password" name="Password" placeholder="Minimum 5 characters"><br>
             Confrim Password:*<br>
@@ -164,3 +177,5 @@ if(isset($_POST['Submit'])){ //check if form was submitted
             <input type="submit" value="Submit" name="Submit">
             <input type="reset">
         </form>
+</body>
+</html>
