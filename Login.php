@@ -14,7 +14,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	if($row=mysqli_fetch_array($result))	
 	{
 		$_SESSION["ID"]=$row[0];
-		$_SESSION["Name"]=$row["Name"];
+		$_SESSION["Fname"]=$row["FirstName"];
 	    $_SESSION["Email"]=$row["Email"];
 	    $_SESSION["Password"]=$row["Password"];
 	    $_SESSION["Address"]=$row["Address"];
@@ -27,7 +27,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 }
 ?>
 
-<?php include "menu.php";?>
+<?php include "home.php";?>
 
 <h1>Login</h1>
 <form action="" method="post">

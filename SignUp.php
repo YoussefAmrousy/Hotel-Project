@@ -1,45 +1,129 @@
 <?php
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "web-project";
 
-$pwdMsg = "Minimum 5 characters";
-$nameErr = $emailErr = $nationIDErr = "";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if(isset($_POST['Submit'])){ //check if form was submitted
     $sql="select * from users where Email = '".$_POST["Email"]."'";
-	$result = mysqli_query($conn, $sql);		
-	if ( $row=mysqli_fetch_array($result) ) {
-		echo "<script>
-		alert('This email is taken, Try another one')
-		</script>";	
-	}
-	else if(empty($_POST['Name']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']))
+	$result = mysqli_query($conn, $sql);
+	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
+	$resultID = mysqli_fetch_array($conn, $sqlID);
+	echo "$resultID";
+	if(empty($_POST['Fname']) || empty($_POST['Lname']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']) || empty($_POST['NoOfGuests']))
 	{
 		echo "<script>
 		alert('Please Fill all of the required fields')
 		</script>";
-	}
-	else if (!preg_match("/^[a-zA-Z-' ]*$/",$_POST['Name'])) {
-		$nameErr = "Only letters and white space allowed";
-	}
-	else if ($_POST['Password'] !== $_POST['ConfirmPassword'] || strlen($_POST['Password']) < 5) {
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}		
+	else if ($row = mysqli_fetch_array($result)) {
 		echo "<script>
-		alert('Those passwords doesn't match')
+		alert('This Email is already taken, try another one')
 		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if ($row1 = mysqli_fetch_array($resultID)) { // Not Working
+		echo "<script>
+		alert('There is already an account created with this National ID')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
+		echo "<script>
+		alert('Only letters and white space allowed')
+		</script>";
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
+		echo "<script>
+		alert('Only letters and white space allowed')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
+		echo "<script>
+		alert('Those passwords doesn\'t match')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if (strlen($_POST['Password']) < 5) {
+		echo "<script>
+		alert('Password length should be at least 5 characters')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+
 	}
 	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
-		$emailErr = "Invalid Email Address";
+		echo "<script>
+		alert('Invalid Email Address')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
-	else if (strlen($_POST['Nationalid']) < 14) {
-		$nationIDErr = "Invalid National ID number";
+	else if (strlen($_POST['Nationalid']) != 14) {
+		echo "<script>
+		alert('Invalid National ID number')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
+	}
+	else if (!is_numeric($_POST['Nationalid'])) {
+		echo "<script>
+		alert('Enter a valid National ID')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else
 	{
-		$sql="insert into users(Name,Email,Password,Address,profile,NationID) values('".$_POST['Name']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
+		session_unset();
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$sql="insert into users(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
 		if($result)	
 		{
@@ -53,34 +137,30 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 }
 ?>
 
-<?php include "menu.php";?>
-<h1>SignUp</h1>
-<h2>* Required fields</h2>
-<form action="" method="post">
-	Name:*<br>
-	<input type="text" name="Name"> <?php echo $nameErr ?><br> 
-    Email:*<br>
-	<input type="text" name="Email"> <?php echo $emailErr ?><br>
-	Address:*<br>
-	<input type="text" name="Address"><br>
-	Personal Picture:*<br>
-	<input type="file" name="Profilepic"><br>
-	National ID:*<br>
-	<input type="text" name="Nationalid"> <?php echo $nationIDErr ?> <br>
-	Do you other guests?:<br>
-	<input type="radio" name="guestNo" value=yes">Yes<br>
-	<input type="radio" name="guestNo" value="no">No<br>
-	<select name="GuestNumber">
-		<option value="zero">0</option>
-		<option value="one">1</option>
-		<option value="two">2</option>
-		<option value="three">3</option>
-		<option value="four">4</option>
-	</select><br>
-	Password:*<br>
-	<input type="Password" name="Password"> <?php echo $pwdMsg ?><br>
-	Confrim Password:*<br>
-	<input type="Password" name="ConfirmPassword"><br>
-	<input type="submit" value="Submit" name="Submit">
-	<input type="reset">
-</form>
+<?php include "home.php";?>
+        <h1>Sign Up</h1>
+        <h2>* Required fields</h2>
+        <form action="SignUp.php" method="post">
+            <h3>Personal Information</h3>
+            First Name:*<br>
+            <input type="text" name="Fname" placeholder="Enter First Name" value="<?php if (isset($_SESSION['Fname']) && !empty($_SESSION['Fname'])) echo $_SESSION['Fname']; ?>"><br> 
+            Last Name:* <br>
+            <input type="text" name="Lname" placeholder="Enter Last Name" value="<?php if (isset($_SESSION['Lname']) && !empty($_SESSION['Lname'])) echo $_SESSION['Lname']; ?>"><br> 
+            Email:*<br>
+            <input type="text" name="Email" id="Email" placeholder="Enter Email Address" value="<?php if (isset($_SESSION['Email']) && !empty($_SESSION['Email'])) echo $_SESSION['Email']; ?>"><br>
+            Address:*<br>
+            <input type="text" name="Address" placeholder="Enter your address" value="<?php if (isset($_SESSION['Address']) && !empty($_SESSION['Address'])) echo $_SESSION['Address']; ?>"><br>
+            Personal Picture:*<br>
+            <input type="file" name="Profilepic" value="<?php if (isset($_SESSION['Profilepic']) && !empty($_SESSION['Profilepic'])) echo $_SESSION['Profilepic']; ?>"><br>
+            National ID:*<br>
+            <input type="text" name="Nationalid" placeholder="Enter your National ID (14 digits)" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>"><br>
+            <h3>Family Information</h3>
+            Number Of guests:<br>
+            <input type="text" name="NoOfGuests" placeholder="Maximum 4 guests" max="4"><br>
+            Password:*<br>
+            <input type="Password" name="Password" placeholder="Minimum 5 characters"><br>
+            Confrim Password:*<br>
+            <input type="Password" name="ConfirmPassword" placeholder="Confirm Password"><br><br>
+            <input type="submit" value="Submit" name="Submit">
+            <input type="reset">
+        </form>

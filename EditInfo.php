@@ -1,5 +1,5 @@
 <?php 
-include "menu.php";
+include "home.php";
 $servername = "localhost";
 $username = "root";
 $password = "";
