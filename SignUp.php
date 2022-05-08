@@ -12,7 +12,7 @@ $dbname = "web-project";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if(isset($_POST['Submit'])){ //check if form was submitted
-    $sql="select * from users where Email = '".$_POST["Email"]."'";
+    $sql="select * from clients where Email = '".$_POST["Email"]."'";
 	$result = mysqli_query($conn, $sql);
 /* 	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
 	$resultID = mysqli_fetch_array($conn, $sqlID); */
@@ -137,15 +137,22 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		session_unset();
 		$_SESSION['Fname'] = $_POST['Fname'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
-		$sql="insert into users(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
+		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
-		if($result)	
-		{
-			header("Location:Guests.php");
+		$idnum = "select ID from clients where FirstName = '".$_POST['Fname']."'";
+		$idresult = mysqli_query($conn, $idnum);
+		if ($idresult->num_rows > 0) {
+			while($row = $idresult->fetch_assoc()) {
+				$_SESSION['ID'] = $row['ID'];
+			}
 		}
-		else
-		{
-			echo $sql;
+		if($result)	{
+			if ($_POST['NoOfGuests'] > 0) {
+				header("Location:Guests.php");
+			}
+			else {
+				header("Location:home.php");
+			}
 		}
 	}
 }
@@ -154,7 +161,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 <?php include "home.php";?>
         <h1>Sign Up</h1>
         <h2>* Required fields</h2>
-        <form action="SignUp.php" method="post">
+        <form action="" method="post">
             <h3>Personal Information</h3>
             First Name:*<br>
             <input type="text" name="Fname" placeholder="Enter First Name" value="<?php if (isset($_SESSION['Fname']) && !empty($_SESSION['Fname'])) echo $_SESSION['Fname']; ?>"><br> 

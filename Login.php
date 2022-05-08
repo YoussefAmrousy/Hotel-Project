@@ -9,7 +9,7 @@ $dbname = "web-project";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 if(isset($_POST['Submit'])){ //check if form was submitted
-	$sql="select * from users where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
+	$sql="select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
 	$result = mysqli_query($conn,$sql);		
 	if($row=mysqli_fetch_array($result))	
 	{
@@ -34,7 +34,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 <h1>Login</h1>
 <form action="" method="post">
 	Email:<br>
-	<!-- cookie not working> -->
 	<input type="text" name="Email" value="<?php if (isset($_COOKIE['Email']) && !empty($_COOKIE['Email'])) echo $_COOKIE['Email']; ?>">  <br>
 	Password:<br>
 	<input type="Password" name="Password" value="<?php if (isset($_COOKIE['Password']) && !empty($_COOKIE['Password'])) echo $_COOKIE['Password']; ?>"><br>

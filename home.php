@@ -12,7 +12,7 @@
         }
         if (isset($_SESSION['Fname'])) {
             echo "<div class='sessionWelcome'>Welcome ".$_SESSION['Fname']."</div><nav name='navbar'>
-            <a href='home.html'>Home</a>
+            <a href='home.php'>Home</a>
             <a href='about.html'>About</a>
             <a href='contact.html'>Contact Us</a>
             <a href='SignOut.php'>Sign Out</a>
@@ -21,7 +21,7 @@
         }
         else {
             echo "<nav name='navbar'>
-            <a href='home.html'>Home</a>
+            <a href='home.php'>Home</a>
             <a href='about.html'>About</a>
             <a href='login.php'>Login</a>
             <a href='SignUp.php'>Sign Up</a>
