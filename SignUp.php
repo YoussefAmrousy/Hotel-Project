@@ -67,6 +67,16 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	<input type="file" name="Profilepic"><br>
 	National ID:*<br>
 	<input type="text" name="Nationalid"> <?php echo $nationIDErr ?> <br>
+	Do you other guests?:<br>
+	<input type="radio" name="guestNo" value=yes">Yes<br>
+	<input type="radio" name="guestNo" value="no">No<br>
+	<select name="GuestNumber">
+		<option value="zero">0</option>
+		<option value="one">1</option>
+		<option value="two">2</option>
+		<option value="three">3</option>
+		<option value="four">4</option>
+	</select><br>
 	Password:*<br>
 	<input type="Password" name="Password"> <?php echo $pwdMsg ?><br>
 	Confrim Password:*<br>
