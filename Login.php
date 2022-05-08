@@ -19,6 +19,8 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	    $_SESSION["Password"]=$row["Password"];
 	    $_SESSION["Address"]=$row["Address"];
 		header("Location:home.php");
+		setcookie("Email", $_SESSION['Email'], time() + (86400*365), "/");
+		setcookie("Password", $_SESSION['Password'], time() + (86400*365), "/");
 	}
 	else	
 	{
@@ -32,9 +34,10 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 <h1>Login</h1>
 <form action="" method="post">
 	Email:<br>
-	<input type="text" name="Email">  <br>
+	<!-- cookie not working> -->
+	<input type="text" name="Email" value="<?php if (isset($_COOKIE['Email']) && !empty($_COOKIE['Email'])) echo $_COOKIE['Email']; ?>">  <br>
 	Password:<br>
-	<input type="Password" name="Password"><br>
+	<input type="Password" name="Password" value="<?php if (isset($_COOKIE['Password']) && !empty($_COOKIE['Password'])) echo $_COOKIE['Password']; ?>"><br>
 	<input type="submit" value="Submit" name="Submit">
 	<input type="reset">
 </form>
