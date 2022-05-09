@@ -14,7 +14,7 @@
 $(function () {
      var url = window.location.href;
      $(".navbar-nav .nav-link").each(function () {
-         // checks if its the same on the address bar
+         // checks if its the same on the address bar.
           if (url == (this.href)) {
                $(this).closest("li").addClass("active");
                 //for making parent of submenu active
