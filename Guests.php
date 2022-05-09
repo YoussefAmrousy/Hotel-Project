@@ -1,6 +1,9 @@
 <html>
     <head><title>Guests Information</title></head>
     <body>
+        <style>
+            h4 { display: inline; }
+            </style>
         <?php include "home.php"; ?>
         <h3>Guest Information</h3>
         <?php
@@ -8,7 +11,7 @@
             session_start();
         }
         $guestNo = $_SESSION['NoOfGuests'];
-            echo "<h4>Total guests are:</h4>".$_SESSION['NoOfGuests']."<form method='post'>";
+            echo "<br><h4>Total guests are: ".$_SESSION['NoOfGuests']."</h4><br><br><form method='post'>";
             switch ($guestNo) {
                 case 1:
                     echo "<b>Guest Name 1:</b>

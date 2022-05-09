@@ -1,3 +1,11 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+	<body>
 <?php
 session_start();
 
@@ -22,8 +30,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		setcookie("Email", $_SESSION['Email'], time() + (86400*365), "/");
 		setcookie("Password", $_SESSION['Password'], time() + (86400*365), "/");
 	}
-	else	
-	{
+	else {
 		echo "Invalid Email or Password";
 	}
 }
@@ -40,3 +47,5 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	<input type="submit" value="Submit" name="Submit">
 	<input type="reset">
 </form>
+</body>
+</html>

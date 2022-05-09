@@ -10,34 +10,47 @@
 </head>
 
 <body style="height:1500px">
+<script>
+$(function () {
+     var url = window.location.href;
+     $(".navbar-nav .nav-link").each(function () {
+         // checks if its the same on the address bar
+          if (url == (this.href)) {
+               $(this).closest("li").addClass("active");
+                //for making parent of submenu active
+                 $(this).closest("li").parent().parent().addClass("active");
+                }
+            });
+            });
+</script>
 <?php
         if(session_id() == '') {
             session_start();
         }
         ?>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" id="bar">
     <a class="navbar-brand" href="#">Hurghada GRND Hotel</a>
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link active" href="home.php">Home</a>
+            <a class="nav-link" id ="home" href="home.php">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" id="about" href="#">About</a>
         </li>
         <?php if (isset($_SESSION['Fname'])) {
             echo "<li class='nav-item'>
-            <a class='nav-link' href='#'>Book</a>
+            <a class='nav-link' id='book' href='#'>Book</a>
             </li>
             <li class='nav-item'>
-            <a class='nav-link' href='SignOut.php'>Sign Out</a>
+            <a class='nav-link' id='signout' href='SignOut.php'>Sign Out</a>
             </li>";
         }
         else {
             echo "<li class='nav-item'>
-            <a class='nav-link' href='Login.php'>Login</a>
+            <a class='nav-link' id='login' href='Login.php'>Login</a>
             </li>
             <li class='nav-item'>
-            <a class='nav-link' href='SignUp.php'>Register</a>
+            <a class='nav-link' id=register' href='SignUp.php'>Register</a>
             </li>";
         }
         ?>
