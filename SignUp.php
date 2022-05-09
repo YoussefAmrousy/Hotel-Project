@@ -137,7 +137,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		session_unset();
 		$_SESSION['Fname'] = $_POST['Fname'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
-		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$_POST['Profilepic']."', '".$_POST['Nationalid']."')";
+		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$imgContent."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
 		$idnum = "select ID from clients where FirstName = '".$_POST['Fname']."'";
 		$idresult = mysqli_query($conn, $idnum);
@@ -172,7 +172,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
             Address:*<br>
             <input type="text" name="Address" placeholder="Enter your address" value="<?php if (isset($_SESSION['Address']) && !empty($_SESSION['Address'])) echo $_SESSION['Address']; ?>"><br>
             Personal Picture:*<br>
-            <input type="file" name="Profilepic" value="<?php if (isset($_SESSION['Profilepic']) && !empty($_SESSION['Profilepic'])) echo $_SESSION['Profilepic']; ?>"><br>
+            <input type="file" name="Profilepic"><br>
             National ID:*<br>
             <input type="text" name="Nationalid" placeholder="Enter your National ID (14 digits)" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>"><br>
             Number Of guests:<br>
