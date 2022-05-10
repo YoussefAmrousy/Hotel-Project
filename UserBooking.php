@@ -1,6 +1,9 @@
 <html>
     <head>
         <script src="booking.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
         <style>
@@ -25,7 +28,7 @@
         document.getElementById("DifferentPlan").style.visibility = "hidden";
         document.getElementById("dayLabel").style.visibility = "hidden";
         </script>
-        <br><button>Check Available Rooms</button>
+        <br><button onclick="location.href='RoomSelection.php'" type="button">Check Available Rooms</button>
         </form>
 </body>
 </html>
