@@ -3,13 +3,8 @@
 	<body>
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "web-project";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once 'dbConnection.php';
 
 if(isset($_POST['Submit'])){ //check if form was submitted
     $sql="select * from clients where Email = '".$_POST["Email"]."'";
@@ -136,6 +131,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	{
 		session_unset();
 		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$imgContent."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
@@ -147,11 +143,11 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 			}
 		}
 		if($result)	{
-			if ($_POST['NoOfGuests'] > 0) {
-				header("Location:Guests.php");
+			if ($_POST['NoOfGuests'] == "#") {
+				header("Location:home.php");
 			}
 			else {
-				header("Location:home.php");
+				header("Location:Guests.php");
 			}
 		}
 	}
@@ -175,8 +171,8 @@ if(isset($_POST['Submit'])){ //check if form was submitted
             <input type="file" name="Profilepic"><br>
             National ID:*<br>
             <input type="text" name="Nationalid" placeholder="Enter your National ID (14 digits)" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>"><br>
-            Number Of guests:<br>
-            <input type="text" name="NoOfGuests" id="NoOfGuests" placeholder="Maximum 4 guests" value="<?php if (isset($_SESSION['NoOfGuests']) && !empty($_SESSION['NoOfGuests'])) echo $_SESSION['NoOfGuests']; ?>"><br>
+            Number Of guests (Maxium 4 Guests):<br>
+            <input type="text" name="NoOfGuests" id="NoOfGuests" placeholder="Enter # For 0 guests" value="<?php if (isset($_SESSION['NoOfGuests']) && !empty($_SESSION['NoOfGuests'])) echo $_SESSION['NoOfGuests']; ?>"><br>
             Password:*<br>
             <input type="Password" name="Password" placeholder="Minimum 5 characters"><br>
             Confrim Password:*<br>

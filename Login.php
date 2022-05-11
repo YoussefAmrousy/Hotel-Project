@@ -8,27 +8,22 @@
 	<body>
 <?php
 session_start();
+require_once 'dbConnection.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "web-project";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 if(isset($_POST['Submit'])){ //check if form was submitted
 	$sql="select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
-	$result = mysqli_query($conn,$sql);		
+	$result = mysqli_query($conn,$sql);
+	$name = "select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
+	$nameresult = mysqli_query($conn, $sql);
 	if($row=mysqli_fetch_array($result))	
 	{
-		$_SESSION["ID"]=$row[0];
-		$_SESSION["Fname"]=$row["FirstName"];
+		$_SESSION["ID"]= $row["ID"];
+		$_SESSION["Fname"]= $row["FirstName"];
+		$_SESSION["Lname"] = $row["LastName"];
 	    $_SESSION["Email"]=$row["Email"];
-	    $_SESSION["Password"]=$row["Password"];
-	    $_SESSION["Address"]=$row["Address"];
 		header("Location:home.php");
 		setcookie("Email", $_SESSION['Email'], time() + (86400*365), "/");
-		setcookie("Password", $_SESSION['Password'], time() + (86400*365), "/");
+		setcookie("Password", $_POST['Password'], time() + (86400*365), "/");
 	}
 	else {
 		echo "Invalid Email or Password";
