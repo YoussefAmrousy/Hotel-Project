@@ -12,6 +12,7 @@
             session_start();
         }
         $guestNo = $_SESSION['NoOfGuests'];
+        $guestNoDB = $guestNo + 1;
         $name = $_SESSION['Fname'] . " " . $_SESSION['Lname'];
         echo "<br><h4>Total guests are: ".$_SESSION['NoOfGuests']."</h4><br><br><form method='post'>";
         switch ($guestNo) {
@@ -78,14 +79,15 @@
                             alert('Only letters and white spaces allowed')
                             </script>";
                         }
-                        else if (!is_numeric($_POST['GuestID1'])) {
+                        else if (!is_numeric($_POST['GuestID1']) || strlen($_POST['GuestID1']) != 14) {
                              echo "<script>
                              alert('Enter Valid National ID for the guest')
                              </script>";
                         }
-                        $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID) values('".$_SESSION['ID']."','".$name."','".$guestNo."','".$_POST['GuestName1']."','".$_POST['GuestID1']."')";
+                        $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID) values('".$_SESSION['ID']."','".$name."','".$guestNoDB."','".$_POST['GuestName1']."','".$_POST['GuestID1']."')";
                         $result=mysqli_query($conn,$sql);
                         if ($result) {
+                            $_SESSION['NoOfGuests'] = $guestNoDb;
                             header("Location:home.php");
                         }
                         break;
@@ -100,14 +102,15 @@
                                 alert('Only letters and white spaces allowed')
                                 </script>";
                             }
-                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2'])) {
+                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2']) || strlen($_POST['GuestID1']) != 14 || strlen($_POST['GuestID2']) != 14) {
                                 echo "<script>
                                 alert('Enter Valid National ID for the guest')
                                 </script>";
                             }
-                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID) values('".$_SESSION['ID']."','".$name."','".$guestNo."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."')";
+                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID) values('".$_SESSION['ID']."','".$name."','".$guestNoDB."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."')";
                             $result=mysqli_query($conn,$sql);
                             if ($result) {
+                                $_SESSION['NoOfGuests'] = $guestNoDb;
                                 header("Location:home.php");
                             }
                             break;
@@ -122,14 +125,15 @@
                                 alert('Only letters and white spaces allowed')
                                 </script>";
                             }
-                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2']) || !is_numeric($_POST['GuestID3'])) {
+                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2']) || !is_numeric($_POST['GuestID3']) || strlen($_POST['GuestID1']) != 14 || strlen($_POST['GuestID2']) != 14 || strlen($_POST['GuestID3']) != 14) {
                                 echo "<script>
                                 alert('Enter Valid National ID for the guest')
                                 </script>";
                             }
-                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID, Guest3Name, Guest3ID) values('".$_SESSION['ID']."','".$name."','".$guestNo."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."','".$_POST['GuestName3']."','".$_POST['GuestID3']."')";
+                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID, Guest3Name, Guest3ID) values('".$_SESSION['ID']."','".$name."','".$guestNoDB."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."','".$_POST['GuestName3']."','".$_POST['GuestID3']."')";
                             $result=mysqli_query($conn,$sql);
                             if ($result) {
+                                $_SESSION['NoOfGuests'] = $guestNoDb;
                                 header("Location:home.php");
                             }
                             break;
@@ -144,19 +148,19 @@
                                 alert('Only letters and white spaces allowed')
                                 </script>";
                             }
-                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2']) || !is_numeric($_POST['GuestID3']) || !is_numeric($_POST['GuestID4'])) {
+                            else if (!is_numeric($_POST['GuestID1']) || !is_numeric($_POST['GuestID2']) || !is_numeric($_POST['GuestID3']) || !is_numeric($_POST['GuestID4']) || strlen($_POST['GuestID1']) != 14 || strlen($_POST['GuestID2']) != 14 || strlen($_POST['GuestID3']) != 14 || strlen($_POST['GuestID4']) != 14) {
                                 echo "<script>
                                 alert('Enter Valid National ID for the guest')
                                 </script>";
                             }
-                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID, Guest3Name, Guest3ID, Guest4Name, Guest4ID) values('".$_SESSION['ID']."','".$name."','".$guestNo."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."','".$_POST['GuestName3']."','".$_POST['GuestID3']."','".$_POST['GuestName4']."','".$_POST['GuestID4']."')";
+                            $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID, Guest3Name, Guest3ID, Guest4Name, Guest4ID) values('".$_SESSION['ID']."','".$name."','".$guestNoDB."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."','".$_POST['GuestName3']."','".$_POST['GuestID3']."','".$_POST['GuestName4']."','".$_POST['GuestID4']."')";
                             $result=mysqli_query($conn,$sql);
                             if ($result) {
+                                $_SESSION['NoOfGuests'] = $guestNoDb;
                                 header("Location:home.php");
                             }
                             break;
                     }
-                    unset($_SESSION['NoOfGuests']);
                 }
                 ?>
     </body>

@@ -22,6 +22,29 @@
             <option value="Vacation">Vacation (More than a month)</option>
             <option value="I have a different plan">I have a different plan</option>
         </select><br>
+        <h6>Room Types:</h6> <select id="roomType">
+            <?php
+            $guestNo = $_SESSION['NoOfGuests'];
+            $extra = "";
+            switch ($guestNo) {
+                case 1:
+                    echo "<option value='Single'>Single</option>";
+                    break;
+                case 2:
+                    echo "<option value='Double Room'>Double Room</option>";
+                    break;
+                case 3:
+                    echo "<option value='Triple Room'>Triple Room</option>";
+                    break;
+                case 4:
+                    echo "<option value='Triple Room'>Triple Room</option>
+                    <option value='Two double rooms'>Two double rooms</option>";
+                    break;
+                case 5:
+                    
+            }
+            ?>
+        </select>
         <h6 id="dayLabel">Number of Days:</h6>
         <input type="text" id="DifferentPlan" placeholder="Enter the duration">
         <script>
