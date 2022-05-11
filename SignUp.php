@@ -144,6 +144,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		}
 		if($result)	{
 			if ($_POST['NoOfGuests'] == "#") {
+				$_SESSION['NoOfGuests'] = 0;
 				header("Location:home.php");
 			}
 			else {
