@@ -35,7 +35,7 @@ $(function () {
             <a class="nav-link" id ="home" href="home.php">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="about" href="#">About</a>
+            <a class="nav-link" id="about" href="About.php">About</a>
         </li>
         <?php if (isset($_SESSION['Fname'])) {
             echo "<li class='nav-item'>
