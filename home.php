@@ -48,9 +48,6 @@ $(function () {
         else {
             echo "<li class='nav-item'>
             <a class='nav-link' id='login' href='Login.php'>Login</a>
-            </li>
-            <li class='nav-item'>
-            <a class='nav-link' id=register' href='SignUp.php'>Register</a>
             </li>";
         }
         ?>
