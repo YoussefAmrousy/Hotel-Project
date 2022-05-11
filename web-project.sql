@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2022 at 07:06 PM
+-- Generation Time: May 11, 2022 at 04:58 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -38,20 +38,6 @@ CREATE TABLE `clients` (
   `NationID` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `clients`
---
-
-INSERT INTO `clients` (`ID`, `FirstName`, `LastName`, `Email`, `Password`, `Address`, `profile`, `NationID`) VALUES
-(1, 'e', 'e', 'e@gmail.com', '12345', 'e', '2019-07-26T02_11_35.jpg', '12345678901234'),
-(2, 'zzz', 'zzz', 'ee@gmail.com', '12345', 'eeew', '2019-07-26T02_11_35.jpg', '12345678901234'),
-(3, 'ff', 'ff', 'kll@gmail.com', '12345', 'elwlw', '2019-07-26T02_11_35.jpg', '12345678901234'),
-(4, 'fff', 'ff', 'klle@gmail.com', '12345', 'ee', '2019-07-26T02_11_35.jpg', '12345678901234'),
-(5, 'ee', 'eee', 'eeeeee@gmail.com', '12345', 'eee', '2019-07-26T02_11_35.jpg', '12345678901234'),
-(6, 'fff', 'fff', 'ffff@gmail.com', '12345', 'efffe', 'IMG_3691.JPG', '12345678901234'),
-(7, 'ee', 'ee', 'ewkwa@gmail.com', '12345', 'ekwkw', 'IMG_3691.JPG', '12345678901234'),
-(8, 'eeee', 'eeeee', 'kskskskssksk@gmail.com', '12345', 'kekwkw', 'IMG_3691.JPG', '12345678901234');
-
 -- --------------------------------------------------------
 
 --
@@ -60,6 +46,8 @@ INSERT INTO `clients` (`ID`, `FirstName`, `LastName`, `Email`, `Password`, `Addr
 
 CREATE TABLE `guests` (
   `UserID` int(11) NOT NULL,
+  `Name` text NOT NULL,
+  `TotalGuests` int(1) NOT NULL,
   `Guest1Name` varchar(30) NOT NULL,
   `Guest1ID` varchar(14) NOT NULL,
   `Guest2Name` varchar(30) NOT NULL,
@@ -70,16 +58,22 @@ CREATE TABLE `guests` (
   `Guest4ID` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `guests`
+-- Table structure for table `rooms`
 --
 
-INSERT INTO `guests` (`UserID`, `Guest1Name`, `Guest1ID`, `Guest2Name`, `Guest2ID`, `Guest3Name`, `Guest3ID`, `Guest4Name`, `Guest4ID`) VALUES
-(1, '22', '22', '', '', '', '', '', ''),
-(2, 'ee', '11', '', '', '', '', '', ''),
-(5, 'ee', 'ee', '', '', '', '', '', ''),
-(5, 'ee', 'ee', '', '', '', '', '', ''),
-(6, 'ee', '3', 'ee', '3', 'eee', '4', 'eee', '5');
+CREATE TABLE `rooms` (
+  `UserID` int(11) NOT NULL,
+  `Name` text NOT NULL,
+  `RoomType` text NOT NULL,
+  `View` text NOT NULL,
+  `RoomNumber` int(11) NOT NULL,
+  `Extras` text NOT NULL,
+  `CheckinDate` date NOT NULL,
+  `CheckoutDate` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -98,6 +92,14 @@ ALTER TABLE `guests`
   ADD KEY `UserID` (`UserID`);
 
 --
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`RoomNumber`),
+  ADD UNIQUE KEY `RoomNumber` (`RoomNumber`),
+  ADD KEY `UserID` (`UserID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -105,7 +107,7 @@ ALTER TABLE `guests`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -116,6 +118,12 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `guests`
   ADD CONSTRAINT `guests_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `clients` (`ID`);
+
+--
+-- Constraints for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `clients` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
