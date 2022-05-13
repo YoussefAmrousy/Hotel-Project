@@ -38,6 +38,7 @@
             $currentdate = date('dd/mm/yyyy');
             $checkindate = new DateTime($_POST['checkInDate']);
             $checkoutdate = new DateTime($_POST['checkOutDate']);
+            // not working
             /* if ($checkindate > $currentdate) { //|| $checkoutdate > $currentdate) {
                 echo "<script>alert('This date is invalid, choose another date')</script>";
             } */
