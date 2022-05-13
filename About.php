@@ -8,3 +8,4 @@ Hurghada since 1910. At this time, the guests were few and can be served while e
 stay in the Hotel. Now, the number of guests has increased and the types of the guests have
 become different.</p>
 </body>
+</html>
