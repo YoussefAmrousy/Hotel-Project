@@ -1,4 +1,3 @@
-
 function checkSelection() {
     var elem = document.getElementById("daySelect").value;
     if (elem == "I have a different plan") {

@@ -11,10 +11,10 @@
         if(session_id() == '') {
             session_start();
         }
-        $guestNo = $_SESSION['NoOfGuests'];
+        $guestNo = $_SESSION['guests'];
         $guestNoDB = $guestNo + 1;
         $name = $_SESSION['Fname'] . " " . $_SESSION['Lname'];
-        echo "<br><h4>Total guests are: ".$_SESSION['NoOfGuests']."</h4><br><br><form method='post'>";
+        echo "<br><h4>Total guests are: ".$_SESSION['guests']."</h4><br><br><form method='post'>";
         switch ($guestNo) {
             case 1:
                 echo "<b>Guest Name 1:</b>
@@ -156,7 +156,7 @@
                             $sql = "insert into guests(UserID, Name, TotalGuests, Guest1Name, Guest1ID, Guest2Name, Guest2ID, Guest3Name, Guest3ID, Guest4Name, Guest4ID) values('".$_SESSION['ID']."','".$name."','".$guestNoDB."','".$_POST['GuestName1']."','".$_POST['GuestID1']."','".$_POST['GuestName2']."','".$_POST['GuestID2']."','".$_POST['GuestName3']."','".$_POST['GuestID3']."','".$_POST['GuestName4']."','".$_POST['GuestID4']."')";
                             $result=mysqli_query($conn,$sql);
                             if ($result) {
-                                $_SESSION['NoOfGuests'] = $guestNoDb;
+                                $_SESSION['guests'] = $guestNoDb;
                                 header("Location:home.php");
                             }
                             break;
