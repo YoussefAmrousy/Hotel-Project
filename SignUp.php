@@ -96,7 +96,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	$result = mysqli_query($conn, $sql);
 /* 	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
 	$resultID = mysqli_fetch_array($conn, $sqlID); */
-	if(empty($_POST['Fname']) || empty($_POST['Lname']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']) || empty($_POST['NoOfGuests']))
+	if(empty($_POST['Fname']) || empty($_POST['Lname']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']))
 	{
 		echo "<script>
 		alert('Please Fill all of the required fields')
@@ -106,7 +106,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}		
 	else if ($row = mysqli_fetch_array($result)) {
 		echo "<script>
@@ -116,7 +115,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	/* else if ($row1 = mysqli_fetch_array($resultID)) { // Not Working
 		echo "<script>
@@ -126,7 +124,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	} */
 	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
 		echo "<script>
@@ -136,7 +133,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
 		echo "<script>
@@ -146,7 +142,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
 		echo "<script>
@@ -157,7 +152,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else if (strlen($_POST['Password']) < 5) {
 		echo "<script>
@@ -168,7 +162,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 
 	}
 	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
@@ -179,7 +172,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['Address'] = $_POST['Address'];
 		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else if (strlen($_POST['Nationalid']) != 14) {
 		echo "<script>
@@ -189,22 +181,10 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION['Lname'] = $_POST['Lname'];
 		$_SESSION['Email'] = $_POST['Email'];
 		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 	}
 	else if (!is_numeric($_POST['Nationalid'])) {
 		echo "<script>
 		alert('Enter a valid National ID')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
-	}
-	else if ($_POST['NoOfGuests'] > 4) {
-		echo "<script>
-		alert('Maximum number of Guests is 4')
 		</script>";
 		$_SESSION['Fname'] = $_POST['Fname'];
 		$_SESSION['Lname'] = $_POST['Lname'];
@@ -217,7 +197,6 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		session_unset();
 		$_SESSION['Fname'] = $_POST['Fname'];
 		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['NoOfGuests'] = $_POST['NoOfGuests'];
 		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$imgContent."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
 		$idnum = "select ID from clients where FirstName = '".$_POST['Fname']."'";
@@ -228,44 +207,13 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 			}
 		}
 		if($result)	{
-			if ($_POST['NoOfGuests'] == "#") {
-				$_SESSION['NoOfGuests'] = 0;
 				header("Location:home.php");
-			}
-			else {
-				header("Location:Guests.php");
 			}
 		}
 	}
-}
 ?>
 
 <?php include "home.php";?>
-        <!-- <h1>Sign Up</h1>
-        <h2>* Required fields</h2>
-        <form action="" method="post">
-            <h3>Personal Information</h3>
-            First Name:*<br>
-            <input type="text" name="Fname" placeholder="Enter First Name" value="<?php if (isset($_SESSION['Fname']) && !empty($_SESSION['Fname'])) echo $_SESSION['Fname']; ?>"><br> 
-            Last Name:* <br>
-            <input type="text" name="Lname" placeholder="Enter Last Name" value="<?php if (isset($_SESSION['Lname']) && !empty($_SESSION['Lname'])) echo $_SESSION['Lname']; ?>"><br> 
-            Email:*<br>
-            <input type="text" name="Email" id="Email" placeholder="Enter Email Address" value="<?php if (isset($_SESSION['Email']) && !empty($_SESSION['Email'])) echo $_SESSION['Email']; ?>"><br>
-            Address:*<br>
-            <input type="text" name="Address" placeholder="Enter your address" value="<?php if (isset($_SESSION['Address']) && !empty($_SESSION['Address'])) echo $_SESSION['Address']; ?>"><br>
-            Personal Picture:*<br>
-            <input type="file" name="Profilepic"><br>
-            National ID:*<br>
-            <input type="text" name="Nationalid" placeholder="Enter your National ID (14 digits)" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>"><br>
-            Number Of guests (Maxium 4 Guests):<br>
-            <input type="text" name="NoOfGuests" id="NoOfGuests" placeholder="Enter # For 0 guests" value="<?php if (isset($_SESSION['NoOfGuests']) && !empty($_SESSION['NoOfGuests'])) echo $_SESSION['NoOfGuests']; ?>"><br>
-            Password:*<br>
-            <input type="Password" name="Password" placeholder="Minimum 5 characters"><br>
-            Confrim Password:*<br>
-            <input type="Password" name="ConfirmPassword" placeholder="Confirm Password"><br><br>
-            <input type="submit" value="Submit" name="Submit">
-            <input type="reset">
-        </form> -->
 		<br><br>
 		<div class="signup-form">
     <form action="" method="post">
@@ -283,16 +231,13 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		<div class="form-group">
             <input type="text" class="form-control" name="Address" placeholder="Enter your Address" required="required" value="<?php if (isset($_SESSION['Address']) && !empty($_SESSION['Address'])) echo $_SESSION['Address']; ?>">
         </div>
+		Profile Picture:
 		<div class="form-group">
             <input type="file"  name="Profilepic" required="required">
         </div>
 		<div class="form-group">
-            <input type="text" class="form-control" name="Nationalid" placeholder="14 Digit National ID" required="required" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>">
+            <input type="text" class="form-control" name="Nationalid" placeholder="Enter National ID (14 Digit)" required="required" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>">
         </div>
-		Number of Guests(Max 4 Guests):
-		<div class="form-group">
-		<input type="text" class="form-control" name="NoOfGuests" id="NoOfGuests" placeholder="Enter # For 0 guests" value="<?php if (isset($_SESSION['NoOfGuests']) && !empty($_SESSION['NoOfGuests'])) echo $_SESSION['NoOfGuests']; ?>">
-  </div>
 		<div class="form-group">
             <input type="password" class="form-control" name="Password" placeholder="Password" required="required">
         </div>
