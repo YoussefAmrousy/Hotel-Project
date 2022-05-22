@@ -91,6 +91,13 @@ session_start();
 
 require_once 'dbConnection.php';
 
+if (isset($_SESSION['Email'])) {
+	echo "<script>
+	window.location.href ='home.php';
+	alert('You don\'t have access to this page')
+	</script>";
+}
+
 if(isset($_POST['Submit'])){ //check if form was submitted
     $sql="select * from clients where Email = '".$_POST["Email"]."'";
 	$result = mysqli_query($conn, $sql);
@@ -195,19 +202,12 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 	else
 	{
 		session_unset();
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
+		setcookie("Email", "", time() - 10000);
+		setcookie("Password", "", time() - 10000);
 		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$imgContent."', '".$_POST['Nationalid']."')";
 		$result=mysqli_query($conn,$sql);
-		$idnum = "select ID from clients where FirstName = '".$_POST['Fname']."'";
-		$idresult = mysqli_query($conn, $idnum);
-		if ($idresult->num_rows > 0) {
-			while($row = $idresult->fetch_assoc()) {
-				$_SESSION['ID'] = $row['ID'];
-			}
-		}
 		if($result)	{
-				header("Location:home.php");
+				header("Location:Login.php");
 			}
 		}
 	}

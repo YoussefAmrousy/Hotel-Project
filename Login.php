@@ -42,8 +42,6 @@ session_start();
 require_once 'dbConnection.php';
 
 if(isset($_POST['Submit'])){ //check if form was submitted
-	$name = "select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
-	$nameresult = mysqli_query($conn, $sql);
 	$sql="select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
 	$result = mysqli_query($conn,$sql);
 	if($row=mysqli_fetch_array($result))	
@@ -53,8 +51,8 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION["Lname"] = $row["LastName"];
 	    $_SESSION["Email"]=$row["Email"];
 		header("Location:home.php");
-		setcookie("Email", $_SESSION['Email'], time() + (86400*365), "/");
-		setcookie("Password", $_POST['Password'], time() + (86400*365), "/");
+		setcookie("Email", $_SESSION['Email'], 0);
+		setcookie("Password", $_POST['Password'], 0);
 	}
 	else {
 		echo "<script>
