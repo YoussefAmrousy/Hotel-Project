@@ -42,6 +42,9 @@ $(function () {
             <a class='nav-link' id='book' href='UserBooking.php'>Book</a>
             </li>
             <li class='nav-item'>
+            <a class='nav-link' id='reservationList' href='#'>Reservation List</a>
+            </li>
+            <li class='nav-item'>
             <a class='nav-link' id='signout' href='SignOut.php'>Sign Out</a>
             </li>";
         }
