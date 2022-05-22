@@ -7,6 +7,12 @@
         <?php include "home.php"; ?>
         <h3>Guest Information</h3>
         <?php
+        if (!isset($_COOKIE['roomBooked'])) {
+            echo "<script>
+                 window.location.href ='home.php';
+                 alert('You don\'t have access to this page')
+                 </script>";
+        }
         require_once 'dbConnection.php';
         if(session_id() == '') {
             session_start();
@@ -14,26 +20,31 @@
         $guestNo = $_SESSION['guests'];
         $guestNoDB = $guestNo + 1;
         $name = $_SESSION['Fname'] . " " . $_SESSION['Lname'];
-        echo "<br><h4>Total guests are: ".$_SESSION['guests']."</h4><br><br><form method='post'>";
+        ?>
+        <br><h4>Total guests are: <?php echo $_SESSION['guests'] ?> </h4>
+        <br><br><form method='post'>
+        <?php
         switch ($guestNo) {
-            case 1:
-                echo "<b>Guest Name 1:</b>
+            case 1: ?>
+                <b>Guest Name 1:</b>
                 <input type='text' name='GuestName1'><br>
                 <b>Guest ID 1:</b>
-                <input type='text' name='GuestID1'>";
+                <input type='text' name='GuestID1'>
+                <?php
                 break;
-            case 2:
-                echo "<b>Guest Name 1:</b>
+            case 2: ?>
+                <b>Guest Name 1:</b>
                 <input type='text' name='GuestName1'><br><br>
                 <b>Guest ID 1:</b>
                 <input type='text' name='GuestID1'><br><br>
                 <b>Guest Name 2:</b>
                 <input type='text' name='GuestName2'><br><br>
                 <b>Guest ID 2:</b>
-                <input type='text' name='GuestID2'>";
+                <input type='text' name='GuestID2'>
+                <?php
                 break;
-            case 3:
-                echo "<b>Guest Name 1:</b>
+            case 3: ?>
+                <b>Guest Name 1:</b>
                 <input type='text' name='GuestName1'><br><br>
                 <b>Guest ID 1:</b>
                 <input type='text' name='GuestID1'><br><br>
@@ -44,10 +55,13 @@
                 <b>Guest Name 3:</b>
                 <input type='text' name='GuestName3'><br><br>
                 <b>Guest ID 3:</b>
-                <input type='text' name='GuestID3'>";
+                <input type='text' name='GuestID3'>
+                <?php
                 break;
             }
-            echo "<br><input type='Submit' name='Submit' value='Submit'></form>";
+            ?>
+            <br><input type='Submit' name='Submit' value='Submit'></form>
+            <?php
             if (isset($_POST['Submit'])) {
                 switch($guestNo) {
                     case 1:
