@@ -1,6 +1,8 @@
 <?php
 include "home.php";
-session_start();
+if(session_id() == '') {
+    session_start();
+}
 session_unset();
 header("Location:home.php");
 ?>

@@ -87,8 +87,9 @@ body {
 </head>
 	<body>
 <?php
-session_start();
-
+if(session_id() == '') {
+	session_start();
+}
 require_once 'dbConnection.php';
 
 if (isset($_SESSION['Email'])) {

@@ -7,16 +7,17 @@
         <?php include "home.php"; ?>
         <h3>Guest Information</h3>
         <?php
-        if (!isset($_COOKIE['roomBooked'])) {
+        require_once 'dbConnection.php';
+        if(session_id() == '') {
+            session_start();
+        }
+        if ($_SESSION['roomBooked'] != true) {
             echo "<script>
                  window.location.href ='home.php';
                  alert('You don\'t have access to this page')
                  </script>";
         }
-        require_once 'dbConnection.php';
-        if(session_id() == '') {
-            session_start();
-        }
+        unset($_SESSION['roomBooked']);
         $guestNo = $_SESSION['guests'];
         $guestNoDB = $guestNo + 1;
         $name = $_SESSION['Fname'] . " " . $_SESSION['Lname'];
