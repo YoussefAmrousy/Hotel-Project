@@ -46,6 +46,9 @@ $(function () {
             </li>
             <li class='nav-item'>
             <a class='nav-link' id='signout' href='SignOut.php'>Sign Out</a>
+            </li>
+            <li class='nav-item'>
+            <a class='nav-link' id='review' href='review.php'>Review</a>
             </li>";
         }
         else {
@@ -55,7 +58,7 @@ $(function () {
         }
         ?>
         <li class="nav-item">
-            <a class="nav-link" id ="contact" href="#">Contact Us</a>
+            <a class="nav-link" id ="contact" href="contact.php">Contact Us</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled " id="username" href="#"></a>

@@ -50,6 +50,7 @@ if(isset($_POST['Submit'])){ //check if form was submitted
 		$_SESSION["Fname"]= $row["FirstName"];
 		$_SESSION["Lname"] = $row["LastName"];
 	    $_SESSION["Email"]=$row["Email"];
+		//if ($row]role) == user 
 		header("Location:home.php");
 		setcookie("Email", $_SESSION['Email'], 0);
 		setcookie("Password", $_POST['Password'], 0);
