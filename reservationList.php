@@ -10,26 +10,25 @@
         <?php include 'home.php'; ?>
         <br><br><br>
         <h2>Reservation List</h2>
-        <table class="table table-hover" id="checkOutTable" style="width:90%;margin-left: auto;margin-right:auto;">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">User ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Room Type</th>
-                    <th scope="col">Room Number</th>
-                    <th scope="col">Board</th>
-                    <th scope="col">Extra</th>
-                    <th scope="col">Check In Date</th>
-                    <th scope="col">Check Out Date</th>
-                    <th scope="col">Paid</th>
-                </tr>
-            </thead>
-            <tbody>
                 <?php
                 require_once "dbConnection.php";
                 $sql = "SELECT * FROM rooms WHERE UserID = '".$_SESSION['ID']."'";
                 $result = mysqli_query($conn, $sql);
                 if ($result->num_rows > 0) {
+                    echo "<table class='table table-hover' id='checkOutTable' style='width:90%;margin-left: auto;margin-right:auto;'>
+                        <thead class='thead-dark'>
+                            <tr>
+                                <th scope='col'>User ID</th>
+                                <th scope='col'>Name</th>
+                                <th scope='col'>Room Type</th>
+                                <th scope='col'>Room Number</th>
+                                <th scope='col'>Board</th>
+                                <th scope='col'>Extra</th>
+                                <th scope='col'>Check In Date</th>
+                                <th scope='col'>Check Out Date</th>
+                                <th scope='col'>Paid</th>
+                            </tr>
+                        </thead>";
                     while($row = $result->fetch_assoc()) {
                         echo "<tr>
                         <th scope='row'>".$row["UserID"]."</th>
@@ -43,6 +42,10 @@
                         <td>".$row['Paid']."</td>
                         </tr>";
                     }
+                    echo "</tbody></table>";
+                }
+                else {
+                    echo "No Data to show";
                 }
                 ?>
             </tbody>

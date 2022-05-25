@@ -62,7 +62,7 @@
             $chosenDuration = $_POST['daySelect'];
             if ($chosenDuration == 'Day use') {
                 if ($days > 1) {
-                    echo "<script>alert('Duration Should be maximum 1 night')</script>"; 
+                    echo "<script>alert('Duration Should be maximum 1 night')</script>";
                 }
             } 
             else if ($chosenDuration == '1 to 7 nights') {
@@ -98,14 +98,14 @@
                     $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
                     $roomsResult = mysqli_query($conn, $rooms);
                     
-                    if ($result->num_rows == 10) {
+                    if ($result->num_rows == 10 || $roomsResult->num_rows == 10) {
                          echo "<script>alert('There isn't any single rooms available at this time')</script>";
                     }
                     else {
                         if ($roomsResult->num_rows > 0) {
                             while($row = $roomsResult->fetch_assoc()) {
                                 for ($i = 1; $i <= 10; $i++) {
-                                    if ($i != $row['RoomNumber']) {
+                                    if ($row['RoomNumber'] !== $i) {
                                         $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
                                         values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
                                         $resultRoom = mysqli_query($conn, $roomtoTable);
@@ -138,7 +138,7 @@
                                 </script>";
                             }
                             else {
-                                echo "<script>alert('shit awy')</script>";
+                                echo "<script>alert('shit')</script>";
                             }
                         }
                 }
