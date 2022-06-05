@@ -1,3 +1,8 @@
+<?php
+if(session_id() == '') {
+	session_start();
+}
+?>
 <html>
 	<head><title>Sign Up</title>
 	<meta charset="utf-8">
@@ -8,6 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="icon" href="favicon.png">
 <style>
 body {
 	color: #fff;
@@ -86,135 +92,7 @@ body {
 </style>
 </head>
 	<body>
-<?php
-if(session_id() == '') {
-	session_start();
-}
-require_once 'dbConnection.php';
-
-if (isset($_SESSION['Email'])) {
-	echo "<script>
-	window.location.href ='home.php';
-	alert('You don\'t have access to this page')
-	</script>";
-}
-
-if(isset($_POST['Submit'])){ //check if form was submitted
-    $sql="select * from clients where Email = '".$_POST["Email"]."'";
-	$result = mysqli_query($conn, $sql);
-/* 	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
-	$resultID = mysqli_fetch_array($conn, $sqlID); */
-	if(empty($_POST['Fname']) || empty($_POST['Lname']) || empty($_POST['Email']) || empty($_POST['Password']) || empty($_POST['ConfirmPassword']) ||empty($_POST['Address']) || empty($_POST['Profilepic']) || empty($_POST['Nationalid']))
-	{
-		echo "<script>
-		alert('Please Fill all of the required fields')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}		
-	else if ($row = mysqli_fetch_array($result)) {
-		echo "<script>
-		alert('This Email is already taken, try another one')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	/* else if ($row1 = mysqli_fetch_array($resultID)) { // Not Working
-		echo "<script>
-		alert('There is already an account created with this National ID')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-	} */
-	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
-		echo "<script>
-		alert('Only letters and white space allowed')
-		</script>";
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
-		echo "<script>
-		alert('Only letters and white space allowed')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
-		echo "<script>
-		alert('Those passwords doesn\'t match')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	else if (strlen($_POST['Password']) < 5) {
-		echo "<script>
-		alert('Password length should be at least 5 characters')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-
-	}
-	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
-		echo "<script>
-		alert('Invalid Email Address')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	else if (strlen($_POST['Nationalid']) != 14) {
-		echo "<script>
-		alert('Invalid National ID number')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-	}
-	else if (!is_numeric($_POST['Nationalid'])) {
-		echo "<script>
-		alert('Enter a valid National ID')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	else
-	{
-		session_unset();
-		setcookie("Email", "", time() - 10000);
-		setcookie("Password", "", time() - 10000);
-		$sql="insert into clients(FirstName,LastName,Email,Password,Address,profile,NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."', '".$imgContent."', '".$_POST['Nationalid']."')";
-		$result=mysqli_query($conn,$sql);
-		if($result)	{
-				header("Location:Login.php");
-			}
-		}
-	}
-?>
-
-<?php include "home.php";?>
+	<?php include "home.php";?>
 		<br><br>
 		<div class="signup-form">
     <form action="" method="post">
@@ -246,10 +124,141 @@ if(isset($_POST['Submit'])){ //check if form was submitted
             <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" required="required">
         </div>        
         <div class="form-group">
-            <button type="submit" name="Submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+            <input type="submit" name="Submit" class="btn btn-success btn-lg btn-block" value="Reigster"></button>
         </div>
     </form>
 	<div class="text-center"><a href="Login.php">Already have an account?</a></div>
 </div>
+<?php
+
+require_once 'dbConnection.php';
+
+if (isset($_SESSION['Email'])) {	
+	echo "<script>
+	window.location.href ='home.php';
+	alert('You don\'t have access to this page')
+	</script>";
+	die();
+}
+
+if(isset($_POST['Submit'])) { 
+    $sql="select * from users where Email = '".$_POST["Email"]."'";
+	$result = mysqli_query($conn, $sql);
+	
+	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
+	$resultID = mysqli_fetch_array($conn, $sqlID);	
+	
+	if ($row = mysqli_fetch_array($result)) {
+		echo "<script>
+		alert('This Email is already taken, try another one')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	
+	}
+	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
+		echo "<script>
+		alert('Only letters and white space allowed')
+		</script>";
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+	
+	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
+		echo "<script>
+		alert('Only letters and white space allowed')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+	
+	else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
+		echo "<script>
+		alert('Those passwords doesn\'t match')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+	
+	else if (strlen($_POST['Password']) < 5) {
+		echo "<script>
+		alert('Password length should be at least 5 characters')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+
+	}
+	
+	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
+		echo "<script>
+		alert('Invalid Email Address')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+	
+	else if (str_contains($_POST['Email'], "@grnd.com")) {
+		echo "<script>
+		alert('You can\'t use this email domain, choose another email')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+	
+	else if (strlen($_POST['Nationalid']) != 14) {
+		echo "<script>
+		alert('Invalid National ID number')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+	}
+	
+	else if (!is_numeric($_POST['Nationalid'])) {
+		echo "<script>
+		alert('Enter a valid National ID')
+		</script>";
+		$_SESSION['Fname'] = $_POST['Fname'];
+		$_SESSION['Lname'] = $_POST['Lname'];
+		$_SESSION['Email'] = $_POST['Email'];
+		$_SESSION['Address'] = $_POST['Address'];
+		$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	}
+		echo $_POST['Fname'];
+		session_unset();
+		setcookie("Email", "", time() - 10000);
+		setcookie("Password", "", time() - 10000);
+		// $sql="insert into users(FirstName,LastName,Email,Password,Address,NationID, Pending)
+		// values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."','Yes')";
+		$sql = "insert into users(FirstName) values('".$_POST['Fname']."')";
+		$result=mysqli_query($conn,$sql);
+		if($result) {
+			echo "akheran";
+				echo "<script>
+				window.location.href ='home.php';
+				</script>";
+		}
+			else {
+				echo "yarabbbb";
+			}
+		}
+?>
 </body>
 </html>

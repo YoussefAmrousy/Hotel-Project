@@ -1,3 +1,9 @@
+<?php
+require_once 'dbconnection.php';
+if(session_id() == '') {
+	session_start();
+}
+?>
 <html>
 	<head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -11,6 +17,79 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+	<?php
+	$adminEmail = "youssef.amrousy@grnd.com";
+	$adminPassword = "12345";
+	if(isset($_POST['Submit'])){ //check if form was submitted
+		$email = $_POST['Email'];
+		$password = $_POST['Password'];
+		if (str_contains($email, "@grnd.com")) {
+			$sql="select * from staff where Email ='".$email."' and Password='".$password."'";
+			$result = mysqli_query($conn,$sql);
+			if($row=mysqli_fetch_array($result)) {
+				if ($row['Enabled'] == "True") {
+					echo "<script>
+					alert('done')
+					</script>";
+					$_SESSION["ID"]= $row["StaffID"];
+					$_SESSION["Email"]=$row["Email"];
+					$_SESSION['Role'] = $row['Role'];
+					$_SESSION['Name'] = $row['Name'];
+					$_SESSION['Enabled'] = $row['Enabled'];
+					header("Location:adminHome.php");
+				    setcookie("Email", $_SESSION['Email'], 0);
+				    setcookie("Password", $_POST['Password'], 0);
+				}
+				else {
+					echo "<script>
+					alert('Your account is disabled, please contact any of the Quality Assurance team')
+					</script>";
+				}
+			}
+			else if ($email == $adminEmail && $password == $adminPassword) {
+					echo "<script>
+					alert('done')
+					</script>";
+					$_SESSION["ID"]=  "0";
+					$_SESSION["Email"]= $adminEmail;
+					$_SESSION['Role'] = "QA";
+					$_SESSION['Name'] = "Youssef Alamrousy";
+					$_SESSION['Enabled'] = 'True';
+					header("Location:adminHome.php");
+				    setcookie("Email", $_SESSION['Email'], 0);
+				    setcookie("Password", $_POST['Password'], 0);
+				}
+				else {
+					echo "<script>
+					alert('Invalid Email or Password ')
+					</script>";
+				}
+		}
+		else {
+			$sql="select * from users where Email ='".$email."' and Password='".$password."'";
+			$result = mysqli_query($conn,$sql);
+			if($row=mysqli_fetch_array($result)) {
+				$_SESSION["ID"]= $row["ID"];
+				$_SESSION["Fname"]= $row["FirstName"];
+				$_SESSION["Lname"] = $row["LastName"];
+				$_SESSION["Email"]=$row["Email"];
+				header("Location:home.php");
+				setcookie("Email", $_SESSION['Email'], 0);
+				setcookie("Password", $_POST['Password'], 0);
+			}
+			else {
+				echo "<script>
+				alert('Invalid Email or Password ')
+				</script>";
+			}
+		}
+	}
+	?>
+	
+	<?php include "home.php";?>
 <style>
 .login-form {
     width: 340px;
@@ -35,35 +114,6 @@
     font-weight: bold;
 }
 </style>
-</head>
-	<body>
-<?php
-session_start();
-require_once 'dbConnection.php';
-
-if(isset($_POST['Submit'])){ //check if form was submitted
-	$sql="select * from clients where Email ='".$_POST["Email"]."' and Password='".$_POST["Password"]."'";
-	$result = mysqli_query($conn,$sql);
-	if($row=mysqli_fetch_array($result))	
-	{
-		$_SESSION["ID"]= $row["ID"];
-		$_SESSION["Fname"]= $row["FirstName"];
-		$_SESSION["Lname"] = $row["LastName"];
-	    $_SESSION["Email"]=$row["Email"];
-		//if ($row]role) == user 
-		header("Location:home.php");
-		setcookie("Email", $_SESSION['Email'], 0);
-		setcookie("Password", $_POST['Password'], 0);
-	}
-	else {
-		echo "<script>
-		alert('Invalid Email or Password ')
-		</script>";
-	}
-}
-?>
-
-<?php include "home.php";?>
 
 <br><br>
 <div class="login-form">

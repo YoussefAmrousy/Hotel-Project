@@ -3,6 +3,7 @@
         <title>Book a room</title>
         <script src="booking.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="favicon.png">
     </head>
     <body>
         <style>
@@ -47,16 +48,25 @@
             <option value="All Incluse (Extra fees)">All Inclusive (Extra fees)</option>
         </select><br>
         <h6>Check in Date: </h6> <input type="date" name="checkInDate" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2023-12-31" required="required"><br>
-        <h6>Check out Date: </h6> <input type="date" name="checkOutDate" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2023-12-31" required="required"><br>                                        
+        <h6>Check out Date: </h6> <input type="date" name="checkOutDate" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2023-12-31" required="required"><br> 
+        <input type='submit' value='Check Availablitiy' name='checkAvailablitiy'>    
+        </form>                                   
             <?php
-            if (isset($_POST['submit'])) {
+            if (isset($_POST['checkAvailablitiy'])) {
                 if (empty($_POST['checkInDate'])) { echo "<script>alert('Please enter your Check in date')</script>"; }
                 else if (empty($_POST['checkOutDate'])) { echo "<script>alert('Please enter your Check out date')</script>"; }
             $checkindate = new DateTime($_POST['checkInDate']);
             $checkoutdate = new DateTime($_POST['checkOutDate']);
             $checkindateformat = $checkindate->format('Y-m-d');
             $checkoutdateformat = $checkoutdate->format('Y-m-d');
-            if ($checkindateformat == $checkoutdateformat) { echo "<script>alert('Check in date couldn't be equal to Check out date')</script>"; }
+            if ($checkindateformat == $checkoutdateformat) {
+                echo "<script>alert('You can\'t have your checkin and checkout date on the same day')</script>";
+                die();
+             }
+             else if ($checkindateformat > $checkoutdateformat) {
+                echo "<script>alert('You can\'t set your checkout date before checkin date')</script>";
+                die();
+             }
             $daydiff = $checkindate->diff($checkoutdate);
             $days = $daydiff->days;
             $chosenDuration = $_POST['daySelect'];
@@ -98,14 +108,18 @@
                     $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
                     $roomsResult = mysqli_query($conn, $rooms);
                     
-                    if ($result->num_rows == 10 || $roomsResult->num_rows == 10) {
-                         echo "<script>alert('There isn't any single rooms available at this time')</script>";
+                    if ($roomsResult->num_rows >= 10) {
+                        echo "<script>
+                        window.location.href ='home.php';
+                        alert('There isn\'t any Single rooms available')
+                        </script>";
                     }
                     else {
                         if ($roomsResult->num_rows > 0) {
-                            while($row = $roomsResult->fetch_assoc()) {
                                 for ($i = 1; $i <= 10; $i++) {
-                                    if ($row['RoomNumber'] !== $i) {
+                                    $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
+                                    $roomNoResult = mysqli_query($conn, $roomNo);
+                                    if ($roomNoResult->num_rows == 0) {
                                         $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
                                         values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
                                         $resultRoom = mysqli_query($conn, $roomtoTable);
@@ -113,19 +127,14 @@
                                         if ($resultRoom) {
                                             $_SESSION['roomBooked'] = "true";
                                             echo "<script>
-                                            window.location.href='home.php'
+                                            window.location.href='checkout.php'
                                             alert('Redirecting to Checkout page')
                                             </script>";
-                                            break;
-                                        }
-                                        else {
-                                            echo "<script>alert('shit')</script>";
                                             break;
                                         }
                                     }
                                 }
                             }
-                        }
                         else {
                             $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
                             values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
@@ -133,12 +142,9 @@
                             if ($resultRoom) {
                                 $_SESSION['roomBooked'] = "true";
                                 echo "<script>
-                                window.location.href='home.php'
+                                window.location.href='checkout.php'
                                 alert('Redirecting to Checkout page')
                                 </script>";
-                            }
-                            else {
-                                echo "<script>alert('shit')</script>";
                             }
                         }
                 }
@@ -146,117 +152,149 @@
                 else if ($roomType == "Double") {
                     $sql = "SELECT * FROM rooms WHERE RoomType = '".$roomType."' AND CheckinDate = '".$checkindateformat."' AND checkoutDate = '".$checkoutdateformat."' OR '".$checkindateformat."' BETWEEN checkinDate AND checkoutDate";
                     $result = mysqli_query($conn, $sql);
-                    if ($result->num_rows == 10) { echo "<script>alert('There isn't any double rooms available at this time')</script>"; }
+                    $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
+                    $roomsResult = mysqli_query($conn, $rooms);
+                    
+                    if ($roomsResult->num_rows >= 10) {
+                        echo "<script>
+                        window.location.href ='home.php';
+                        alert('There isn\'t any Double rooms available')
+                        </script>";
+                    }
                     else {
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                for ($i = 1; $i <= 10; $i++) {
-                                    if ($row['RoomType'] != $roomType) { continue; }
-                                    if ($i != $row['RoomNumber']) {
-                                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                                        $resultRoom = mysqli_query($conn, $roomtoTable);
-                                        if ($resultRoom) {
-                                            $_SESSION['roomBooked'] = "true";
-                                            echo "<script>
-                                            window.location.href='guests.php'
-                                            alert('Rdirecting to Guests List Page')
-                                            </script>";
-                                        } } } } }
+                        if ($roomsResult->num_rows > 0) {
+                            for ($i = 11; $i <= 21; $i++) {
+                                $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
+                                $roomNoResult = mysqli_query($conn, $roomNo);
+                                if ($roomNoResult->num_rows == 0) {
+                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
+                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                    $resultRoom = mysqli_query($conn, $roomtoTable);
+                                    
+                                    if ($resultRoom) {
+                                        $_SESSION['roomBooked'] = "true";
+                                        echo "<script>
+                                        window.location.href='checkout.php'
+                                        alert('Redirecting to Checkout page')
+                                        </script>";
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     else {
                         $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                            values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                       $resultRoom = mysqli_query($conn, $roomtoTable);
-                       if ($resultRoom) {
-                        $_SESSION['roomBooked'] = "true";
-                        echo "<script>
-                        window.location.href='guests.php'
-                        alert('Rdirecting to Guests List Page')
-                        </script>";
-                       } }
+                        values('".$_SESSION['ID']."','".$name."','".$roomType."','11','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
+                        $resultRoom = mysqli_query($conn, $roomtoTable);
+
+                        if ($resultRoom) {
+                            $_SESSION['roomBooked'] = "true";
+                            echo "<script>
+                            window.location.href='checkout.php'
+                            alert('Redirecting to Checkout page')
+                            </script>";
+                        }
                     }
                 }
+            }
                 else if ($roomType == "Triple") {
-                    $roomType = "Triple";
-                    $quantity =$_POST['roomsTotal'];
                     $sql = "SELECT * FROM rooms WHERE RoomType = '".$roomType."' AND CheckinDate = '".$checkindateformat."' AND checkoutDate = '".$checkoutdateformat."' OR '".$checkindateformat."' BETWEEN checkinDate AND checkoutDate";
                     $result = mysqli_query($conn, $sql);
-                    if ($result->num_rows == 10) { echo "<script>alert('There isn't any triple rooms available at this time')</script>"; }
+                    $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
+                    $roomsResult = mysqli_query($conn, $rooms);
+                    
+                    if ($roomsResult->num_rows >= 10) {
+                        echo "<script>
+                        window.location.href ='home.php';
+                        alert('There isn\'t any Triple rooms available')
+                        </script>";
+                    }
                     else {
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                for ($i = 1; $i <= 10; $i++) {
-                                    if ($row['RoomType'] != $roomType) { continue; }
-                                    if ($i != $row['RoomNumber']) {
-                                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                                        $resultRoom = mysqli_query($conn, $roomtoTable);
-                                        if ($resultRoom) {
-                                            $_SESSION['roomBooked'] = "true";
-                                            echo "<script>
-                                            window.location.href='guests.php'
-                                            alert('Rdirecting to Guests List Page')
-                                            </script>";
-                                        } } } } }
+                        if ($roomsResult->num_rows > 0) {
+                            for ($i = 22; $i <= 32; $i++) {
+                                $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
+                                $roomNoResult = mysqli_query($conn, $roomNo);
+                                if ($roomNoResult->num_rows == 0) {
+                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
+                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                    $resultRoom = mysqli_query($conn, $roomtoTable);
+                                    
+                                    if ($resultRoom) {
+                                        $_SESSION['roomBooked'] = "true";
+                                        echo "<script>
+                                        window.location.href='checkout.php'
+                                        alert('Redirecting to Checkout page')
+                                        </script>";
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     else {
                         $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                            values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                       $resultRoom = mysqli_query($conn, $roomtoTable);
-                       if ($resultRoom) {
-                        $_SESSION['roomBooked'] = "true";
-                        echo "<script>
-                        window.location.href='guests.php'
-                        alert('Rdirecting to Guests List Page')
-                        </script>";
-                       } }
+                        values('".$_SESSION['ID']."','".$name."','".$roomType."','22','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
+                        $resultRoom = mysqli_query($conn, $roomtoTable);
+                        if ($resultRoom) {
+                            $_SESSION['roomBooked'] = "true";
+                            echo "<script>
+                            window.location.href='checkout.php'
+                            alert('Redirecting to Checkout page')
+                            </script>";
+                        }
+                    }
                 }
             }
                 else if ($roomType == "Triple" && $extraBed == "Yes") {
-                    $roomType = "Triple";
-                    $quantity = $_POST['roomsTotal'];
                     $sql = "SELECT * FROM rooms WHERE RoomType = '".$roomType."' AND CheckinDate = '".$checkindateformat."' AND checkoutDate = '".$checkoutdateformat."' OR '".$checkindateformat."' BETWEEN checkinDate AND checkoutDate";
                     $result = mysqli_query($conn, $sql);
-                    if ($result->num_rows == 10) { echo "<script>alert('There isn't any triple rooms available at this time')</script>"; }
+                    $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
+                    $roomsResult = mysqli_query($conn, $rooms);
+                    
+                    if ($roomsResult->num_rows >= 10) {
+                        echo "<script>
+                        window.location.href ='home.php';
+                        alert('There isn\'t any Triple rooms available')
+                        </script>";
+                    }
                     else {
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                for ($i = 1; $i <= 10; $i++) {
-                                    if ($row['RoomType'] != $roomType) { continue; }
-                                    if ($i != $row['RoomNumber']) {
-                                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, Extra, CheckinDate, CheckoutDate, Paid)
-                                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$extraBed."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
-                                        $resultRoom = mysqli_query($conn, $roomtoTable);
-                                        if ($resultRoom) {
-                                            $_SESSION['roomBooked'] = "true";
-                                            echo "<script>
-                                            window.location.href ='guests.php'
-                                            alert('Rdirecting to Guests List Page')
-                                            </script>";
-                                            break;
-                                        } } } } }
+                        if ($roomsResult->num_rows > 0) {
+                            for ($i = 22; $i <= 32; $i++) {
+                                $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
+                                $roomNoResult = mysqli_query($conn, $roomNo);
+                                if ($roomNoResult->num_rows == 0) {
+                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, Extra, CheckinDate, CheckoutDate, Paid)
+                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$extraBed."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                    $resultRoom = mysqli_query($conn, $roomtoTable);
+                                    
+                                    if ($resultRoom) {
+                                        $_SESSION['roomBooked'] = "true";
+                                        echo "<script>
+                                        window.location.href='checkout.php'
+                                        alert('Redirecting to Checkout page')
+                                        </script>";
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     else {
-                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                            values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                       $resultRoom = mysqli_query($conn, $roomtoTable);
-                       if ($resultRoom) {
-                           $_SESSION['roomBooked'] = "true";
-                           echo "<script>alert('Rdirecting to Guests List Page')</script>";
-                           header("Location:Guests.php");
-                       } }
+                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, Extra, CheckinDate, CheckoutDate, Paid)
+                        values('".$_SESSION['ID']."','".$name."','".$roomType."','22','".$board."','".$extraBed."','".$checkindateformat."','".$checkoutdateformat."','No')";
+                        $resultRoom = mysqli_query($conn, $roomtoTable);
+                        if ($resultRoom) {
+                            $_SESSION['roomBooked'] = "true";
+                            echo "<script>
+                            window.location.href='checkout.php'
+                            alert('Redirecting to Checkout page')
+                            </script>";
+                        }
+                    }
                 }
             }
         }
         ?>
-        <h6 id="dayLabel">Total Nights:</h6>
-        <input type="text" id="totalnights" name="totalnights" placeholder="Enter the duration"><br>
-        <script>
-        document.getElementById("totalnights").style.visibility = "hidden";
-        document.getElementById("dayLabel").style.visibility = "hidden";
-        </script>
-        <input type='submit' value='Check Availablitiy' name='submit'>
-        </form>
-        <table class="table table-hover" id="roomsTable" style="width:40%;margin-left: auto;margin-right:auto;" hidden="hidden">
+        <!-- <table class="table table-hover" id="roomsTable" style="width:40%;margin-left: auto;margin-right:auto;" hidden="hidden">
 
-        </table>
+        </table> -->
 </body>
 </html>

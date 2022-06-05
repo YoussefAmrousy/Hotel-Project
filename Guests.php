@@ -1,5 +1,8 @@
 <html>
-    <head><title>Guests Information</title></head>
+    <head>
+        <title>Guests Information</title>
+    <link rel="icon" href="favicon.png">
+</head>
     <body>
         <style>
             h4 { display: inline; }
