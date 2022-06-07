@@ -142,122 +142,124 @@ if (isset($_SESSION['Email'])) {
 }
 
 if(isset($_POST['Submit'])) { 
-    $sql="select * from users where Email = '".$_POST["Email"]."'";
-	$result = mysqli_query($conn, $sql);
+   // $sql="select * from users where Email = '".$_POST["Email"]."'"; law email metkarar
+	//$result = mysqli_query($conn, $sql);taba3 el foo2
 	
 	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
-	$resultID = mysqli_fetch_array($conn, $sqlID);	
+	$resultID = mysqli_fetch_array($conn, $sqlID);
 	
-	if ($row = mysqli_fetch_array($result)) {
-		echo "<script>
-		alert('This Email is already taken, try another one')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	
+	echo $_POST['Fname'];
+	session_unset();
+	setcookie("Email", "", time() - 10000);
+	setcookie("Password", "", time() - 10000);
+	//$sql="insert into users(FirstName,LastName,Email,Password,Address,NationID, Pending)
+	//values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."','Yes')";
+	$sql = "insert into users(FirstName) values('".$_POST['Fname']."')";
+	$result=mysqli_query($conn,$sql);
+	if($result) {
+		echo "akheran";
+			echo "<script>
+			window.location.href ='home.php';
+			</script>";
 	}
-	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
-		echo "<script>
-		alert('Only letters and white space allowed')
-		</script>";
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	
-	else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
-		echo "<script>
-		alert('Only letters and white space allowed')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	
-	else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
-		echo "<script>
-		alert('Those passwords doesn\'t match')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	
-	else if (strlen($_POST['Password']) < 5) {
-		echo "<script>
-		alert('Password length should be at least 5 characters')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-
-	}
-	
-	else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
-		echo "<script>
-		alert('Invalid Email Address')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	
-	else if (str_contains($_POST['Email'], "@grnd.com")) {
-		echo "<script>
-		alert('You can\'t use this email domain, choose another email')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-	
-	else if (strlen($_POST['Nationalid']) != 14) {
-		echo "<script>
-		alert('Invalid National ID number')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-	}
-	
-	else if (!is_numeric($_POST['Nationalid'])) {
-		echo "<script>
-		alert('Enter a valid National ID')
-		</script>";
-		$_SESSION['Fname'] = $_POST['Fname'];
-		$_SESSION['Lname'] = $_POST['Lname'];
-		$_SESSION['Email'] = $_POST['Email'];
-		$_SESSION['Address'] = $_POST['Address'];
-		$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	}
-		echo $_POST['Fname'];
-		session_unset();
-		setcookie("Email", "", time() - 10000);
-		setcookie("Password", "", time() - 10000);
-		// $sql="insert into users(FirstName,LastName,Email,Password,Address,NationID, Pending)
-		// values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."','Yes')";
-		$sql = "insert into users(FirstName) values('".$_POST['Fname']."')";
-		$result=mysqli_query($conn,$sql);
-		if($result) {
-			echo "akheran";
-				echo "<script>
-				window.location.href ='home.php';
-				</script>";
+		else {
+			echo "yarabbbb";
 		}
-			else {
-				echo "yarabbbb";
-			}
+	
+	// if ($row = mysqli_fetch_array($result)) {
+	// 	echo "<script>
+	// 	alert('This Email is already taken, try another one')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	
+	// }
+	// else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
+	// 	echo "<script>
+	// 	alert('Only letters and white space allowed')
+	// 	</script>";
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
+	// else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
+	// 	echo "<script>
+	// 	alert('Only letters and white space allowed')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
+	// else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
+	// 	echo "<script>
+	// 	alert('Those passwords doesn\'t match')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
+	// else if (strlen($_POST['Password']) < 5) {
+	// 	echo "<script>
+	// 	alert('Password length should be at least 5 characters')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+
+	// }
+	
+	// else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
+	// 	echo "<script>
+	// 	alert('Invalid Email Address')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
+	// else if (str_contains($_POST['Email'], "@grnd.com")) {
+	// 	echo "<script>
+	// 	alert('You can\'t use this email domain, choose another email')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
+	// else if (strlen($_POST['Nationalid']) != 14) {
+	// 	echo "<script>
+	// 	alert('Invalid National ID number')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// }
+	
+	// else if (!is_numeric($_POST['Nationalid'])) {
+	// 	echo "<script>
+	// 	alert('Enter a valid National ID')
+	// 	</script>";
+	// 	$_SESSION['Fname'] = $_POST['Fname'];
+	// 	$_SESSION['Lname'] = $_POST['Lname'];
+	// 	$_SESSION['Email'] = $_POST['Email'];
+	// 	$_SESSION['Address'] = $_POST['Address'];
+	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// }
+	
 		}
 ?>
 </body>

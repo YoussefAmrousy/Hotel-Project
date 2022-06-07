@@ -68,10 +68,10 @@ if(session_id() == '') {
 					</script>";
 				}
 		}
-		else {
-			$sql="select * from users where Email ='".$email."' and Password='".$password."'";
-			$result = mysqli_query($conn,$sql);
-			if($row=mysqli_fetch_array($result)) {
+		
+			$sql="select * from users where Email ='".$_POST['Email']."' and Password='".$_POST['Password']."'";
+			$result = mysqli_query($conn,$sql) or die( mysqli_error($conn));
+			if($row=mysqli_fetch_array($result,)) {
 				$_SESSION["ID"]= $row["ID"];
 				$_SESSION["Fname"]= $row["FirstName"];
 				$_SESSION["Lname"] = $row["LastName"];
@@ -85,11 +85,11 @@ if(session_id() == '') {
 				alert('Invalid Email or Password ')
 				</script>";
 			}
-		}
+		
 	}
 	?>
 	
-	<?php include "home.php";?>
+	<?php include "navbar.php";?>
 <style>
 .login-form {
     width: 340px;
@@ -112,6 +112,13 @@ if(session_id() == '') {
 .btn {        
     font-size: 15px;
     font-weight: bold;
+}
+body {
+ background-image: url("beach.png");
+ height: 100%;
+ background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>
 

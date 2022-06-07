@@ -5,7 +5,7 @@
         <link rel="icon" href="favicon.png">
     </head>
     <body>
-        <?php include 'home.php'; ?>
+        <?php include 'navbar.php'; ?>
         <br><br><br>
         <h2>Reservation List</h2>
                 <?php
