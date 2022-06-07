@@ -2,8 +2,8 @@
     <head>
         <title>Manage Accounts</title>
         <link rel="icon" href="favicon.png">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    </head>
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        </head>
     <body>
         <?php include "adminHome.php"; ?>
         <br><br><br>
@@ -41,7 +41,7 @@
                             <td>".$row['Name']."</td>
                             <td>".$row['Password']."</td>
                             <td id='role_".$staffID."'>".$row['Role']."</td>
-                            <td>".$row['Enabled']."</td>
+                            <td id='restrict_'".$staffID."'>".$row['Enabled']."</td>
                             <td><button type='button' class='deleteAccount' id='".$staffID."' value='Delete'>Delete</button></td>
                             <td><button type='button' class='restrictAccount' id='".$staffID."' value='Restrict'>Restrict</button></td>";
                             if ($row['Role'] == "Receptionist") {
@@ -58,33 +58,45 @@
                         }
                         ?>
                         <script>
-                        $(document).ready(function(){
-                            $(".deleteAccount").click(function(){
-                                var id = $(this).attr('id');
-                                if (confirm("Are you sure you want to delete this account")) {
-                                    var http = new XMLHttpRequest();
-                                    var url = "deleteStaffAccount.php";
-                                    var params = "id="+id;
-                                    http.open("POST", url, true);
-                                    http.onreadystatechange = function() {
-                                        if(http.readyState == 4 && http.status == 200) {
-                                            alert("Deleted Successfully");
+                        // $(document).ready(function(){
+                        //     $(".deleteAccount").click(function(){
+                        //         var id = $(this).attr('id');
+                        //         var btn = this;
+                        //         if (confirm("Are you sure you want to delete this account")) {
+                        //             $.ajax({
+                        //                 url: "deleteStaffAccount.php",
+                        //                 type: "POST",
+                        //                 data: {id:id},
+                        //                 success: function() {
+                        //                     $(this).closest('tr').remove();
+                        //                 }
+                        //             });
+                        //         }
+                        //     });
+                        $(".restrictAccount").click(function(){
+                            var row = document.getElementById("restrict_"+id);
+                            var id = var id = $(this).attr('id');
+                            var btn = this;
+                            var reason = prompt("Enter reason to Enable/Disable this account: ");
+                            if (prompt != "" || prompt != NULL) {
+                            $.ajax({
+                                        url: "restrictAccount.php",
+                                        type: "POST",
+                                        data: {id:id, reason: reason},
+                                        success: function() {
+                                            if (row.innerHTML = "True") {
+                                                row.innerHTML = "False";
+                                            }
+                                            else {
+                                                row.innerHTML = "True";
+                                            }
+                                        },
+                                        error: function() {
+                                            alert('eror');
                                         }
-                                    }
-                                    http.send(params);
-                                    $(this).closest('tr').css('background','tomato');
-                                    $(this).closest('tr').fadeOut(800,function(){
-                                        $(this).closest('tr').remove();
                                     });
                                 }
-                        });
-                        $(".restrictAccount").click(function(){
-                            var reason = prompt("Enter reason to Enable/Disable this account: ");
-                            if (reason == "" || reason == null) {
-                                exit();
-                            } 
                         })
-                    });
                         </script>
                         <script>
                             const promote=( id=false )=>{

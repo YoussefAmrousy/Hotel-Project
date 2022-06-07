@@ -55,7 +55,7 @@
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 echo "<script>
-                alert('Account was added successfully')
+                window.location.href ='manageAccounts.php';
                 </script>";
             }
         }
