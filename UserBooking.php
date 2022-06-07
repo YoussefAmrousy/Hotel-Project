@@ -4,15 +4,24 @@
         <script src="booking.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="favicon.png">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
         <style>
             h6 {
                 display: inline;
             }
+            body {
+ background-image: url("room.jpg");
+ height: 100%;
+ background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             </style>
     <?php 
-    include "home.php";
+    include "navbar.php";
     if(session_id() == '') {
         session_start();
     }
@@ -25,7 +34,11 @@
     require_once 'dbConnection.php';
     ?>
     <br><br><br>
+    <div class="w3-display-left w3-padding w3-col l6 m8">
+    <div class="w3-container w3-red">
     <h4>Booking a room</h4>
+    </div>
+    <div class="w3-container w3-white w3-padding-16">
     <form id="dayForm" method="post">
         <h6>Duration: </h6> <select id ="daySelect" name="daySelect" onchange="checkSelection()">
             <option value="Day use">Day use</option>
@@ -50,7 +63,8 @@
         <h6>Check in Date: </h6> <input type="date" name="checkInDate" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2023-12-31" required="required"><br>
         <h6>Check out Date: </h6> <input type="date" name="checkOutDate" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2023-12-31" required="required"><br> 
         <input type='submit' value='Check Availablitiy' name='checkAvailablitiy'>    
-        </form>                                   
+        </form> 
+</div>                                  
             <?php
             if (isset($_POST['checkAvailablitiy'])) {
                 if (empty($_POST['checkInDate'])) { echo "<script>alert('Please enter your Check in date')</script>"; }
