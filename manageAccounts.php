@@ -58,45 +58,47 @@
                         }
                         ?>
                         <script>
-                        // $(document).ready(function(){
-                        //     $(".deleteAccount").click(function(){
-                        //         var id = $(this).attr('id');
-                        //         var btn = this;
-                        //         if (confirm("Are you sure you want to delete this account")) {
-                        //             $.ajax({
-                        //                 url: "deleteStaffAccount.php",
-                        //                 type: "POST",
-                        //                 data: {id:id},
-                        //                 success: function() {
-                        //                     $(this).closest('tr').remove();
-                        //                 }
-                        //             });
-                        //         }
-                        //     });
-                        $(".restrictAccount").click(function(){
-                            var row = document.getElementById("restrict_"+id);
-                            var id = var id = $(this).attr('id');
-                            var btn = this;
-                            var reason = prompt("Enter reason to Enable/Disable this account: ");
-                            if (prompt != "" || prompt != NULL) {
-                            $.ajax({
-                                        url: "restrictAccount.php",
+                        $(document).ready(function(){
+                            $(".deleteAccount").click(function(){
+                                var id = $(this).attr('id');
+                                var btn = this;
+                                if (confirm("Are you sure you want to delete this account")) {
+                                    $.ajax({
+                                        url: "deleteStaffAccount.php",
                                         type: "POST",
-                                        data: {id:id, reason: reason},
-                                        success: function() {
-                                            if (row.innerHTML = "True") {
-                                                row.innerHTML = "False";
-                                            }
-                                            else {
-                                                row.innerHTML = "True";
-                                            }
-                                        },
-                                        error: function() {
-                                            alert('eror');
+                                        data: {id:id},
+                                        success: function(res) {
+                                            $(btn).closest('tr').remove();
                                         }
                                     });
                                 }
-                        })
+                            });
+                        // $(".restrictAccount").click(function() {
+                        //     var row = document.getElementById("restrict_"+id);
+                        //     var id = var id = $(this).attr('id');
+                        //     var btn = this;
+                        //     var prom = prompt("Enter reason");
+                        //     var reason = prompt("Enter reason to Enable/Disable this account: ");
+                        //     if (prompt != "" || prompt != NULL) {
+                        //     $.ajax({
+                        //                 url: "restrictAccount.php",
+                        //                 type: "POST",
+                        //                 data: {id:id, reason: reason},
+                        //                 success: function() {
+                        //                     if (row.innerHTML = "True") {
+                        //                         row.innerHTML = "False";
+                        //                     }
+                        //                     else {
+                        //                         row.innerHTML = "True";
+                        //                     }
+                        //                 },
+                        //                 error: function() {
+                        //                     alert('eror');
+                        //                 }
+                        //             });
+                        //         }
+                        // })
+                    });
                         </script>
                         <script>
                             const promote=( id=false )=>{
