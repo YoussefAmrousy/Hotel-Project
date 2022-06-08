@@ -52,7 +52,7 @@ $q_score2 = $_POST['quality2'];
 $q_score3 = $_POST['quality3'];  
 $feedback_txt = $_POST['suggestion'];
 
-$conn = mysqli_connect("localhost", "root","", "practice");
+$conn = mysqli_connect("localhost", "root","", "web-project");
 $query ="insert into feedback(name,room,score,score2,score3, feedback) 
 values('".$name."','".$room."','".$q_score."','".$q_score2."','".$q_score3."','".$feedback_txt."')";
 $result = mysqli_query($conn, $query);
