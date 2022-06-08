@@ -72,32 +72,28 @@
                                         }
                                     });
                                 }
-                            });
-                        // $(".restrictAccount").click(function() {
-                        //     var row = document.getElementById("restrict_"+id);
-                        //     var id = var id = $(this).attr('id');
-                        //     var btn = this;
-                        //     var prom = prompt("Enter reason");
-                        //     var reason = prompt("Enter reason to Enable/Disable this account: ");
-                        //     if (prompt != "" || prompt != NULL) {
-                        //     $.ajax({
-                        //                 url: "restrictAccount.php",
-                        //                 type: "POST",
-                        //                 data: {id:id, reason: reason},
-                        //                 success: function() {
-                        //                     if (row.innerHTML = "True") {
-                        //                         row.innerHTML = "False";
-                        //                     }
-                        //                     else {
-                        //                         row.innerHTML = "True";
-                        //                     }
-                        //                 },
-                        //                 error: function() {
-                        //                     alert('eror');
-                        //                 }
-                        //             });
-                        //         }
-                        // })
+                            })
+                        $(".restrictAccount").click(function() {
+                            var id = var id = $(this).attr('id');
+                            var btn = this;
+                            var reason = prompt("Enter reason to Enable/Disable this account: ");
+                            if (prompt != "" || prompt != NULL) {
+                                alert(reason);
+                            // $.ajax({
+                            //             url: "restrictAccount.php",
+                            //             type: "POST",
+                            //             data: {id:id, reason: reason},
+                            //             success: function() {
+                            //                 if (row.innerHTML = "True") {
+                            //                     row.innerHTML = "False";
+                            //                 }
+                            //                 else {
+                            //                     row.innerHTML = "True";
+                            //                 }
+                            //             }
+                            //         });
+                                }
+                        })
                     });
                         </script>
                         <script>
