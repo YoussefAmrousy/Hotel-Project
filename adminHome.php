@@ -44,9 +44,6 @@ $(function () {
         <li class="nav-item">
             <a class="nav-link" id ="pendingReservations" href="pendingReservations.php">Pending Reservations</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id ="pendingAccounts" href="pendingAcounts.php">Pending Accounts</a>
-        </li>
         <?php if (isset($_SESSION['Role']) && $_SESSION['Role'] == "QA") {
             echo "<li class='nav-item'>
             <a class='nav-link' id ='viewComments' href='viewComments.php'>View Comments</a>
