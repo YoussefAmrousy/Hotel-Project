@@ -8,46 +8,94 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif; color: white}
 body {
- background-image: url("aboutback.jpg");
+ 
  height: 100%;
  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-iframe {
-  position: fixed;
-  bottom: 70;
-  right: 1120;
-  width: 300px;
-  border: 3px solid #73AD21;
-}
+
 </style>
     </head>
 <header>
     <?php include 'navbar.php'; ?>
-    
-    <!-- <br><br><br>
-    <h1>About</h1>
-    <p>Hurghada GRND Hotel is one of the biggest Hotels in Hurghada. It has been operating in
-Hurghada since 1910. At this time, the guests were few and can be served while enjoying their
-stay in the Hotel. Now, the number of guests has increased and the types of the guests have
-become different.</p>
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227125.81048061338!2d33.64162519389287!3d27.192740338533504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145287b2cd3dbbb3%3A0x2db807f98bd3c360!2sHurghada%2C%20Red%20Sea%20Governorate!5e0!3m2!1sen!2seg!4v1653574672442!5m2!1sen!2seg" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
-    <div class="w3-row-padding" id="about">
-    <div class="w3-col l4 12">
-      <h1>About</h1>
-      <p>Hurghada GRND Hotel is one of the biggest Hotels in Hurghada. It has been operating in
-Hurghada since 1910. At this time, the guests were few and can be served while enjoying their
-stay in the Hotel. Now, the number of guests has increased and the types of the guests have
-become different</p>
-    <p>We accept: <i class="fa fa-credit-card w3-large"></i> <i class="fa fa-cc-mastercard w3-large"></i> <i class="fa fa-cc-amex w3-large"></i> <i class="fa fa-cc-cc-visa w3-large"></i><i class="fa fa-cc-paypal w3-large"></i></p>
-    </div>
-    <div class="w3-col l8 12">
-      
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227125.81048061338!2d33.64162519389287!3d27.192740338533504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145287b2cd3dbbb3%3A0x2db807f98bd3c360!2sHurghada%2C%20Red%20Sea%20Governorate!5e0!3m2!1sen!2seg!4v1653574672442!5m2!1sen!2seg" id="iframe" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </div>
-</header>
+    <body>
+        <center><h1><p style="color: turquoise">Hurghada GRND hotel activities and entertainment</p></h1></center>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                background: grey;
+                
+            }
+            .slider{
+                width: 800px;
+                height: 500px;
+                background: url(1.jpg);
+                margin: 100px auto;
+                animation: slide 20s infinite;
+            }
+            @keyframes slide{
+                20%{
+                    background: url(2.jpg);
+                }
+                40%{
+                    background: url(3.jpg);
+                }
+                60%{
+                    background: url(4.jpg);
+                }
+                80%{
+                    background: url(5.jpg);
+                }
+                100%{
+                    background: url(1.jpg);
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+        
+        <div class="slider">
+        </div>
+<h3><p style="color:turquoise">Plenty of Fun and Joy Awaiting You</p></h3><br>
+Fun and joy can be found everywhere at Hurghada GRND hotel, with a wide variety of activities and entertainment facilities. Enjoy our daily live shows and daily live music that will surely delight you and add excitement to your trip. Join us during our fruit festivals and sip on a plethora of fruits, fresh juices, and cocktails. Join us during any of the following festivals: Banana Bonanza, Orange Festival, Strawberry Surprise, Sweet Potato Party, Apple Festival, Watermelon Splash, and much more!
+We also organize special carnivals and holiday events. You’ll never know what fun surprise awaits you when you stay at GRND hotel!<br>
+<h3><p style="color:turquoise">Sports and Leisure</p></h3>
+Our resorts also feature multipurpose courts for a wide variety of possibilities.
+We also have numerous sports and athletic activities to take part in, including
+<ul>
+    <li>Beach volleyball</li>
+    <li>Soccer and beach football</li>
+    <li>Tennis courts</li>
+    <li>Basketball</li>
+    <li>Table tennis</li>
+    <li>Billiards</li>
+    <li>Darts competitions</li>
+    <li>Water games and activities</li>
+</ul>
+<h3><p style="color:turquoise">Fitness</p></h3>
+Stay fit and in shape with our excellent fitness facilities and instructors. Our fitness programs include:
+<ul>
+<li>Aerobics </li>
+<li>Yoga </li>
+<li>Meditation</li>
+<li>Dancing</li>
+</ul>
+<h3><p style="color:turquoise">Water Games and Activities</p></h3>
+With the shore right at your doorstep, the water invites you to a world of fun, excitement, and adventure.
+<ul>
+<li>Sailing </li>
+<li>Paddling </li>
+<li>Jet skiing</li>
+<li>Banana boat, crazy eight, and donuts</li>
+<li>Boat trips: yachts and glass boats</li>
+<li>Snorkeling </li>
+</ul>
+    </body>
 </html>
+
