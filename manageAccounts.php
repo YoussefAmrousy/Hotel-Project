@@ -41,7 +41,7 @@
                             <td>".$row['Name']."</td>
                             <td>".$row['Password']."</td>
                             <td id='role_".$staffID."'>".$row['Role']."</td>
-                            <td id='restrict_'".$staffID."'>".$row['Enabled']."</td>
+                            <td id='restrict_".$staffID."'>".$row['Enabled']."</td>
                             <td><button type='button' class='deleteAccount' id='".$staffID."' value='Delete'>Delete</button></td>
                             <td><button type='button' class='restrictAccount' id='".$staffID."' value='Restrict'>Restrict</button></td>";
                             if ($row['Role'] == "Receptionist") {
@@ -58,7 +58,6 @@
                         }
                         ?>
                         <script>
-                        $(document).ready(function(){
                             $(".deleteAccount").click(function(){
                                 var id = $(this).attr('id');
                                 var btn = this;
@@ -73,28 +72,30 @@
                                     });
                                 }
                             })
-                        $(".restrictAccount").click(function() {
-                            var id = var id = $(this).attr('id');
-                            var btn = this;
-                            var reason = prompt("Enter reason to Enable/Disable this account: ");
-                            if (prompt != "" || prompt != NULL) {
-                                alert(reason);
-                            // $.ajax({
-                            //             url: "restrictAccount.php",
-                            //             type: "POST",
-                            //             data: {id:id, reason: reason},
-                            //             success: function() {
-                            //                 if (row.innerHTML = "True") {
-                            //                     row.innerHTML = "False";
-                            //                 }
-                            //                 else {
-                            //                     row.innerHTML = "True";
-                            //                 }
-                            //             }
-                            //         });
+                            $(".restrictAccount").click(function(){
+                                var id = $(this).attr('id');
+                                var btn = this;
+                                var reason = prompt("Enter reason for this action: ");
+                                var row = ocument.getElementById("restrict_"+id).innerHTML;
+                                if (reason != "" || reason != NULL) {
+                                    $.ajax({
+                                        url: "restrictAccount.php",
+                                        type: "POST",
+                                        data: {id:id, reason: reason},
+                                        success: function() {
+                                            if (row == "True") {
+                                            row = "False";
+                                            }
+                                            else {
+                                            row ="True";
+                                            }
+                                        },
+                                        error: function() {
+                                            alert("Error");
+                                        }
+                                    })
                                 }
-                        })
-                    });
+                            })
                         </script>
                         <script>
                             const promote=( id=false )=>{
