@@ -46,7 +46,7 @@ $(function () {
         </li>
         <?php if (isset($_SESSION['Role']) && $_SESSION['Role'] == "QA") {
             echo "<li class='nav-item'>
-            <a class='nav-link' id ='viewComments' href='viewComments.php'>View Comments</a>
+            <a class='nav-link' id ='viewComments' href='viewFeedback.php'>View Comments</a>
             </li>
             <li class='nav-item'>
             <a class='nav-link' id ='reports' href='Reports.php'>Reports</a>

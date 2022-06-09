@@ -57,13 +57,10 @@ $mysqli->close();
 	<section>
 		<table>
 			<tr>
-				<th>id</th>
-                <th>name</th>
-				<th>room</th>
-				<th>hotel score</th>
-				<th>room score</th>
-				<th>food score</th>
-                <th>feedback</th>
+                <th>Name</th>
+				<th>Room</th>
+				<th>Hotel Score</th>
+                <th>Comments</th>
 
     </tr>			
     <?php
@@ -71,13 +68,10 @@ $mysqli->close();
 				{
 			?>
 			<tr>
-				<td><?php echo $rows['id'];?></td>
                 <td><?php echo $rows['name'];?></td>
                 <td><?php echo $rows['room'];?></td>
-				<td><?php echo $rows['score'];?></td>
-				<td><?php echo $rows['score2'];?></td>
-                <td><?php echo $rows['score3'];?></td>
-				<td><?php echo $rows['feedback'];?></td>
+				<td><?php echo $rows['rate'];?></td>
+				<td><?php echo $rows['suggestion'];?></td>
 			</tr>
 			<?php
 				}
