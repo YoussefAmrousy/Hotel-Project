@@ -1,6 +1,13 @@
 <html>
 <head>
     <title>Admin Homepage</title>
+    <style> 
+body {
+  height: auto;
+  background-color: #cccccc;
+  background-image: linear-gradient(white, aqua, blue);
+}
+</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -21,6 +28,7 @@ $(function () {
             });
             });
 </script>
+
 <?php
         if(session_id() == '') {
             session_start();
@@ -46,7 +54,7 @@ $(function () {
         </li>
         <?php if (isset($_SESSION['Role']) && $_SESSION['Role'] == "QA") {
             echo "<li class='nav-item'>
-            <a class='nav-link' id ='viewComments' href='viewFeedback.php'>View Comments</a>
+            <a class='nav-link' id ='viewComments' href='viewComments.php'>View Comments</a>
             </li>
             <li class='nav-item'>
             <a class='nav-link' id ='reports' href='Reports.php'>Reports</a>
@@ -66,6 +74,51 @@ $(function () {
             <a class="nav-link disabled " id="username" href="#"></a>
         </li>
     </ul>
+    
 </nav>
+<br><br><br><br>
+    <div class="body-container">
+    <div class="landing-screen half-landing-screen background-image-section" style="background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('./images/room_banner.jpg');">
+        <div class="landing-screen-info">
+        <center><h1 class="landing-screen-text">Current Rooms Rates</h1></center>
+        </div>
+    </div>
+    <div>
+                        <h2 class="large-text">Balcony Room</h2>
+                        <h4>Price: $100/night</h4>
+                    
+            
+            
+                    <img src="./images/balcony_room.jpg" style=
+    "height:600px;
+    width:600px;"> 
+                          
+
+                <div>
+                        <h2 class="large-text">Single Room</h2>
+                        <h4>Price: $50/night</h4>
+                    
+                    <img src="./images/classic_room.jpg" style=
+    "height:600px;
+    width:600px;">
+                <div>
+                        <h2 class="large-text">Double Room</h2>
+                        <h4>Price: $80/night</h4>
+                    
+                    <img src="./images/home_gallery4.jpg" style=
+    "height:600px;
+    width:600px;"> 
+                
+                </div>
+                <div>
+                        <h2 class="large-text">Triple Room</h2>
+                        <h4>Price: $100/night</h4>
+                   
+                    <img src="./images/family_room.jpg" style=
+    "height:600px;
+    width:600px;">
+                
+                   
+                </div>
 </body>
 </html>

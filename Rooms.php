@@ -1,6 +1,13 @@
 <html>
     <head>
-        <title>About US</title>
+        <title>Rooms</title>
+        <style> 
+body {
+  height: auto;
+  background-color: #cccccc;
+  background-image: linear-gradient(white, aqua, blue);
+}
+</style>
         <link rel="icon" href="favicon.png">
         <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
