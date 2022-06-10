@@ -1,6 +1,13 @@
 <html>
 <head>
     <title>Admin Homepage</title>
+    <style> 
+body {
+  height: auto;
+  background-color: #cccccc;
+  background-image: linear-gradient(white, aqua, blue);
+}
+</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
