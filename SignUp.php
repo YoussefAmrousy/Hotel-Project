@@ -13,6 +13,7 @@ if(session_id() == '') {
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<link rel="icon" href="favicon.png">
 <style>
 body {
@@ -133,7 +134,7 @@ body {
             <input type="password" class="form-control" id='ConfirmPassword' name="ConfirmPassword" placeholder="Confirm Password" required="required">
         </div>        
         <div class="form-group">
-            <input type="submit" name="Submit" class="btn btn-success btn-lg btn-block" value="Reigster"></button>
+            <input type="submit" name="submit" class="btn btn-success btn-lg btn-block" value="Reigster"></button>
         </div>
     </form>
 	<div class="text-center"><a href="Login.php">Already have an account?</a></div>
@@ -150,31 +151,15 @@ if (isset($_SESSION['Email'])) {
 	trigger_error("Already Logged In");
 }
 
-if(isset($_POST['Submit'])) { 
-	$sql="select * from users where Email = '".$_POST["Email"]."'";
-	$result = mysqli_query($conn, $sql);
-	if ($result->num_rows > 0) {
-		echo "<script>
-		alert('This Email is already taken, choose another one')
-		</script>";
-		trigger_error("Email taken");
-	}
-	session_unset();
-	setcookie("Email", "", time() - 10000);
-	setcookie("Password", "", time() - 10000);
-	$firstname = $_POST['Fname'];
-	$lastname = $_POST['Lname'];
-	$email = $_POST['Email'];
-	$password = $_POST['Password'];
-	$nationid = $_POST['Nationalid'];
-	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, NationID) values('".$firstname."','".$lastname."','".$email."','".$password."','".$nationid."')";
-	$result = mysqli_query($conn, $sql);
-	if ($result) {
-		echo "<script>
-		alert('Registered Successfully, Please wait until the recepionist accept your request');
-		window.location.href ='Login.php';
-		</script>";
-	}
+// if(isset($_POST['submit'])) { 
+// 	$sql="select * from users where Email = '".$_POST["Email"]."'";
+// 	$result = mysqli_query($conn, $sql);
+// 	if ($result->num_rows > 0) {
+// 		echo "<script>
+// 		alert('This Email is already taken, choose another one')
+// 		</script>";
+// 		trigger_error("Email taken");
+// 	}
 	// if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname']) || !preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
 	// 		echo "<script>
 	// 		alert('Only letters and white space allowed');
@@ -248,13 +233,29 @@ if(isset($_POST['Submit'])) {
 	// 	$_SESSION['Address'] = $_POST['Address'];
 	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
 	// }
-	
-		}
+		// }
 ?>
 <script>
-	var idEror;
-	var confPass;
-	var passEror;
+	var idEror, confPass, passEror, emailEror;
+	$("#Email").keyup(function() {
+		if (this.value != "") {
+			$.ajax({
+				url: "validateEmail.php",
+				type: "POST",
+                data: {email: this.value},
+                success: function(data) {
+					if (data == "true") {
+						$('#Email').css('border-color', 'red');
+						emailEror = true;
+					}
+				},
+				error: function() {
+					$('#Email').css('border-color', 'green');
+					emailEror = false;
+				}
+			});
+		}
+	})
 	$("#Nationalid").keyup(function(){
 		if(jQuery.isNumeric(this.value) == false || this.value.length != 14){
 			$('#Nationalid').css('border-color', 'red');
@@ -287,13 +288,22 @@ if(isset($_POST['Submit'])) {
 			passEror = false;
 		}
 	})
-	$("register").on("submit", function(e){
-		if(idEror == true || confPass == true || passEror == true) {
-			alert('This information is irreliable, please edit the submitted information');
-    		// e.preventDefault();
-			// window.href = "SignUp.php";
-  		}
-	})
+	// $("form").on("submit", function(e){
+	// 	if(idEror == true || confPass == true || passEror == true) {
+	// 		alert('This information is irreliable, please edit the submitted information');
+	// 		window.href = "SignUp.php";
+  	// 	}
+		// else {
+		// 	$.ajax({
+		// 		url: "Register.php",
+        //         type: "POST",
+        //         data: {id:id},
+        //         success: function(res) {
+        //         $(btn).closest('tr').remove();
+		// 		}
+		// 	});
+		// }
+	// })
 </script>
 </body>
 </html>

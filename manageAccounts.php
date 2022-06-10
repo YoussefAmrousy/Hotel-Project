@@ -76,14 +76,19 @@
                                 var id = $(this).attr('id');
                                 var btn = this;
                                 var reason = prompt("Enter reason for this action: ");
-                                var row = ocument.getElementById("restrict_"+id).innerHTML;
+                                var row = document.getElementById("restrict_"+id);
                                 if (reason != "" || reason != NULL) {
                                     $.ajax({
                                         url: "restrictAccount.php",
                                         type: "POST",
-                                        data: {id:id, reason: reason},
+                                        data: {id:id, reason:reason},
                                         success: function() {
-                                            alert("Done");
+                                            if (row.innerHTML == "True") {
+                                                row.innerHTML = "False";
+                                            }
+                                            else {
+                                                row.innerHTML = "True";
+                                            }
                                         },
                                         error: function() {
                                             alert("Error");

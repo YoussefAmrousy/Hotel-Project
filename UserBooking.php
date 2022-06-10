@@ -25,13 +25,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         session_start();
     }
     include "navbar.php";
+    require_once 'dbConnection.php';
+    require_once 'errorHandling.php';
     if (!isset($_SESSION['Email'])) {
         echo "<script>
         window.location.href ='home.php';
         alert('You don\'t have access to this page')
         </script>";
     }
-    require_once 'dbConnection.php';
     ?>
   <div class="w3-display-left w3-padding w3-col l6 m8">
     <div class="w3-container w3-red">
@@ -74,19 +75,25 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
   </div>
             <?php
             if (isset($_POST['checkAvailablitiy'])) {
-                if (empty($_POST['checkInDate'])) { echo "<script>alert('Please enter your Check in date')</script>"; }
-                else if (empty($_POST['checkOutDate'])) { echo "<script>alert('Please enter your Check out date')</script>"; }
+                if (empty($_POST['checkInDate'])) { 
+                    echo "<script>alert('Please enter your Check in date')</script>";
+                    trigger_error("Empty Check In Date");
+                }
+                else if (empty($_POST['checkOutDate'])) {
+                     echo "<script>alert('Please enter your Check out date')</script>";
+                     trigger_error("Empty Check Out Date");
+                     }
             $checkindate = new DateTime($_POST['checkInDate']);
             $checkoutdate = new DateTime($_POST['checkOutDate']);
             $checkindateformat = $checkindate->format('Y-m-d');
             $checkoutdateformat = $checkoutdate->format('Y-m-d');
             if ($checkindateformat == $checkoutdateformat) {
                 echo "<script>alert('You can\'t have your Check In and Check out date on the same day')</script>";
-                die();
+                trigger_error("Same Dates");
              }
              else if ($checkindateformat > $checkoutdateformat) {
                 echo "<script>alert('You can\'t set your Check Out date before Check Out date')</script>";
-                die();
+                trigger_error("Wrong Dates");
              }
             $daydiff = $checkindate->diff($checkoutdate);
             $days = $daydiff->days;
@@ -106,6 +113,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                         window.location.href ='home.php';
                         alert('There isn\'t any Single rooms available')
                         </script>";
+                        trigger_error("No Empty Single Rooms");
                     }
                     else {
                         if ($roomsResult->num_rows > 0) {
@@ -113,8 +121,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                                     $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
                                     $roomNoResult = mysqli_query($conn, $roomNo);
                                     if ($roomNoResult->num_rows == 0) {
-                                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                                         $resultRoom = mysqli_query($conn, $roomtoTable);
                                         
                                         if ($resultRoom) {
@@ -129,8 +137,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                                 }
                             }
                         else {
-                            $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                            values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
+                            $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                            values('".$_SESSION['ID']."','".$name."','".$roomType."','1','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                             $resultRoom = mysqli_query($conn, $roomtoTable);
                             if ($resultRoom) {
                                 $_SESSION['roomBooked'] = "true";
@@ -153,6 +161,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                         window.location.href ='home.php';
                         alert('There isn\'t any Double rooms available')
                         </script>";
+                        trigger_error("No Empty Double Rooms");
                     }
                     else {
                         if ($roomsResult->num_rows > 0) {
@@ -160,8 +169,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                                 $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
                                 $roomNoResult = mysqli_query($conn, $roomNo);
                                 if ($roomNoResult->num_rows == 0) {
-                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                                     $resultRoom = mysqli_query($conn, $roomtoTable);
                                     
                                     if ($resultRoom) {
@@ -176,8 +185,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                             }
                         }
                     else {
-                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                        values('".$_SESSION['ID']."','".$name."','".$roomType."','11','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
+                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                        values('".$_SESSION['ID']."','".$name."','".$roomType."','11','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                         $resultRoom = mysqli_query($conn, $roomtoTable);
 
                         if ($resultRoom) {
@@ -201,6 +210,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                         window.location.href ='home.php';
                         alert('There isn\'t any Triple rooms available')
                         </script>";
+                        trigger_error("No Empty Triple Rooms");
                     }
                     else {
                         if ($roomsResult->num_rows > 0) {
@@ -208,8 +218,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                                 $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
                                 $roomNoResult = mysqli_query($conn, $roomNo);
                                 if ($roomNoResult->num_rows == 0) {
-                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                                     $resultRoom = mysqli_query($conn, $roomtoTable);
                                     
                                     if ($resultRoom) {
@@ -224,55 +234,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                             }
                         }
                     else {
-                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                        values('".$_SESSION['ID']."','".$name."','".$roomType."','22','".$board."','".$checkindateformat."','".$checkoutdateformat."','No')";
-                        $resultRoom = mysqli_query($conn, $roomtoTable);
-                        if ($resultRoom) {
-                            $_SESSION['roomBooked'] = "true";
-                            echo "<script>
-                            window.location.href='checkout.php'
-                            alert('Redirecting to Checkout page')
-                            </script>";
-                        }
-                    }
-                }
-            }
-                else if ($roomType == "Triple") {
-                    $sql = "SELECT * FROM rooms WHERE RoomType = '".$roomType."' AND CheckinDate = '".$checkindateformat."' AND checkoutDate = '".$checkoutdateformat."' OR '".$checkindateformat."' BETWEEN checkinDate AND checkoutDate";
-                    $result = mysqli_query($conn, $sql);
-                    $rooms = "SELECT * FROM rooms WHERE RoomType = '".$roomType."'";
-                    $roomsResult = mysqli_query($conn, $rooms);
-                    
-                    if ($roomsResult->num_rows >= 10) {
-                        echo "<script>
-                        window.location.href ='home.php';
-                        alert('There isn\'t any Triple rooms available')
-                        </script>";
-                    }
-                    else {
-                        if ($roomsResult->num_rows > 0) {
-                            for ($i = 22; $i <= 32; $i++) {
-                                $roomNo = "SELECT * FROM rooms WHERE RoomNumber ='".$i."'";
-                                $roomNoResult = mysqli_query($conn, $roomNo);
-                                if ($roomNoResult->num_rows == 0) {
-                                    $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                                    values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
-                                    $resultRoom = mysqli_query($conn, $roomtoTable);
-                                    
-                                    if ($resultRoom) {
-                                        $_SESSION['roomBooked'] = "true";
-                                        echo "<script>
-                                        window.location.href='checkout.php'
-                                        alert('Redirecting to Checkout page')
-                                        </script>";
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    else {
-                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate, Paid)
-                        values('".$_SESSION['ID']."','".$name."','".$roomType."','".$i."','".$board."','".$checkindateformat."','".$checkoutdateformat."', 'No')";
+                        $roomtoTable = "INSERT INTO rooms(UserID, Name, RoomType, RoomNumber, Board, CheckinDate, CheckoutDate)
+                        values('".$_SESSION['ID']."','".$name."','".$roomType."','22','".$board."','".$checkindateformat."','".$checkoutdateformat."')";
                         $resultRoom = mysqli_query($conn, $roomtoTable);
                         if ($resultRoom) {
                             $_SESSION['roomBooked'] = "true";
