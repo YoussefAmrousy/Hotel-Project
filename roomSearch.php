@@ -1,6 +1,13 @@
 <html>
 <head>
     <title>roomSearch</title>
+    <style>
+body {
+  background-image: url('images/king_room.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -192,39 +199,6 @@ $(function () {
         }
         ?>
         
-<style>
-            body{
-                margin: 0;
-                padding: 0;
-                background: white;
-                
-            }
-            .slider{
-                width: 800px;
-                height: 500px;
-                background: url(images/delux_room.jpg);
-                margin: 100px auto;
-                animation: slide 20s infinite;
-            }
-            @keyframes slide{
-                20%{
-                    background: url(images/classic_room.jpg);
-                }
-                40%{
-                    background: url(images/delux_room.jpg);
-                }
-                60%{
-                    background: url(images/family_room.jpg);
-                }
-                80%{
-                    background: url(images/home_gallery4.jpg);
-                }
-                100%{
-                    background: url(images/home_gallery5.jpg);
-                }
-            }
 
-        </style>
-        <div class="slider">
     </body>
 </html>
