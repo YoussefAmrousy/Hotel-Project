@@ -29,7 +29,7 @@ $(function () {
         ?>
  <nav class="w3-bar w3-red w3-large">
   <a href="home.php" class="w3-bar-item w3-button w3-red w3-mobile"><img src="favicon.png" width="30" height="27"></a>
-  <a href="#rooms" class="w3-bar-item w3-button w3-red w3-mobile">Rooms</a>
+  <a href="Rooms.php" class="w3-bar-item w3-button w3-red w3-mobile">Rooms</a>
   <a href="about.php" class="w3-bar-item w3-button w3-red w3-mobile">About</a>
   <a href="#contact" class="w3-bar-item w3-button w3-red w3-mobile">Contact</a>
 
@@ -37,6 +37,7 @@ $(function () {
             echo " 
             <a href='UserBooking.php' id='book' class='w3-bar-item w3-button w3-red w3-right  w3-mobile'>Book Now</a>
             <a href='reservationList.php' id='reservationList' class='w3-bar-item w3-button w3-red w3-mobile'>Reservation List</a>
+            <a href='feedback.php' id='reservationList' class='w3-bar-item w3-button w3-red w3-mobile'>Rate us</a>
             <a href='SignOut.php' id='signout' class='w3-bar-item w3-button w3-red w3-mobile'>Sign Out</a>";
         }
         else {
