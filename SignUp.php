@@ -89,39 +89,51 @@ body {
 .signup-form .row div:last-child {
 	padding-left: 10px;
 }    	
+body {
+ background-image: url("beach.png");
+ height: 100%;
+ background-position: center;
+ background-repeat: no-repeat;
+ background-size: cover;
+}
+
+#NationalIDError {
+	color: red;
+}
 </style>
 </head>
 	<body>
-	<?php include "home.php";?>
+		<?php include 'navbar.php'; ?>
 		<br><br>
 		<div class="signup-form">
-    <form action="" method="post">
+    <form action="" method="post" name="register">
 		<h2>Register</h2>
 		<p class="hint-text">Create your account. It's free and only takes a minute.</p>
         <div class="form-group">
 			<div class="row">
-				<div class="col"><input type="text" class="form-control" name="Fname" placeholder="First Name" required="required" value="<?php if (isset($_SESSION['Fname']) && !empty($_SESSION['Fname'])) echo $_SESSION['Fname']; ?>"></div>
-				<div class="col"><input type="text" class="form-control" name="Lname" placeholder="Last Name" required="required" value="<?php if (isset($_SESSION['Lname']) && !empty($_SESSION['Lname'])) echo $_SESSION['Lname']; ?>"></div>
+				<div class="col"><input type="text" class="form-control" id='Fname' name="Fname" placeholder="First Name" required="required"></div>
+				<div class="col"><input type="text" class="form-control" id='Lname' name="Lname" placeholder="Last Name" required="required"></div>
 			</div>        	
         </div>
         <div class="form-group">
-        	<input type="email" class="form-control" name="Email" id="Email" placeholder="Email" required="required" value="<?php if (isset($_SESSION['Email']) && !empty($_SESSION['Email'])) echo $_SESSION['Email']; ?>" >
+        	<input type="email" class="form-control" name="Email" id="Email" placeholder="Email" required="required">
         </div>
 		<div class="form-group">
-            <input type="text" class="form-control" name="Address" placeholder="Enter your Address" required="required" value="<?php if (isset($_SESSION['Address']) && !empty($_SESSION['Address'])) echo $_SESSION['Address']; ?>">
+            <input type="text" class="form-control" id='Address' name="Address" placeholder="Enter your Address" required="required">
         </div>
 		Profile Picture:
 		<div class="form-group">
             <input type="file"  name="Profilepic" required="required">
         </div>
 		<div class="form-group">
-            <input type="text" class="form-control" name="Nationalid" placeholder="Enter National ID (14 Digit)" required="required" value="<?php if (isset($_SESSION['Nationalid']) && !empty($_SESSION['Nationalid'])) echo $_SESSION['Nationalid']; ?>">
+            <input type="text" class="form-control" id='Nationalid' name="Nationalid" placeholder="Enter National ID (14 Digit)" min="14" max="14" required="required">
+			<label for="nationIDError" id="nationIDError"></label>
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" name="Password" placeholder="Password" required="required">
+            <input type="password" class="form-control" id='Password' name="Password" placeholder="Password" required="required">
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" required="required">
+            <input type="password" class="form-control" id='ConfirmPassword' name="ConfirmPassword" placeholder="Confirm Password" required="required">
         </div>        
         <div class="form-group">
             <input type="submit" name="Submit" class="btn btn-success btn-lg btn-block" value="Reigster"></button>
@@ -130,72 +142,47 @@ body {
 	<div class="text-center"><a href="Login.php">Already have an account?</a></div>
 </div>
 <?php
-
 require_once 'dbConnection.php';
+require_once 'errorHandling.php';
 
 if (isset($_SESSION['Email'])) {	
 	echo "<script>
 	window.location.href ='home.php';
 	alert('You don\'t have access to this page')
 	</script>";
-	die();
+	trigger_error("Already Logged In");
 }
 
 if(isset($_POST['Submit'])) { 
-   // $sql="select * from users where Email = '".$_POST["Email"]."'"; law email metkarar
-	//$result = mysqli_query($conn, $sql);taba3 el foo2
-	
-	$sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
-	$resultID = mysqli_fetch_array($conn, $sqlID);
-	
-	echo $_POST['Fname'];
+	$sql="select * from users where Email = '".$_POST["Email"]."'";
+	$result = mysqli_query($conn, $sql);
+	if ($result->num_rows > 0) {
+		echo "<script>
+		alert('This Email is already taken, choose another one')
+		</script>";
+		trigger_error("Email taken");
+	}
 	session_unset();
 	setcookie("Email", "", time() - 10000);
 	setcookie("Password", "", time() - 10000);
-	//$sql="insert into users(FirstName,LastName,Email,Password,Address,NationID, Pending)
-	//values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."','Yes')";
-	$sql = "insert into users(FirstName) values('".$_POST['Fname']."')";
-	$result=mysqli_query($conn,$sql);
-	if($result) {
-		echo "akheran";
-			echo "<script>
-			window.location.href ='home.php';
-			</script>";
+	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, Address, NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."')";
+	$result = mysqli_query($conn, $sql);
+	if ($result) {
+		echo "<script>
+		alert('Registered Successfully');
+		window.location.href ='home.php';
+		</script>";
 	}
-		else {
-			echo "yarabbbb";
-		}
-	
-	// if ($row = mysqli_fetch_array($result)) {
-	// 	echo "<script>
-	// 	alert('This Email is already taken, try another one')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
+	// if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname']) || !preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
+	// 		echo "<script>
+	// 		alert('Only letters and white space allowed');
+	// 		</script>";
+	// 		trigger_error("Wrong Name Format");
+	// }
+	// $sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
+	// $resultID = mysqli_fetch_array($conn, $sqlID);
 	
 	// }
-	// else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname'])) {
-	// 	echo "<script>
-	// 	alert('Only letters and white space allowed')
-	// 	</script>";
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-	
-	// else if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
-	// 	echo "<script>
-	// 	alert('Only letters and white space allowed')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-	
 	// else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
 	// 	echo "<script>
 	// 	alert('Those passwords doesn\'t match')
@@ -262,5 +249,49 @@ if(isset($_POST['Submit'])) {
 	
 		}
 ?>
+<!-- <script>
+	var idEror;
+	var confPass;
+	var passEror;
+	$("#Nationalid").keyup(function(){
+		if(jQuery.isNumeric(this.value) == false || this.value.length != 14){
+			$('#Nationalid').css('border-color', 'red');
+			idEror = true;
+    	}
+		else {
+			$('#Nationalid').css('border-color', 'green');
+			idEror = false;
+		}
+	})
+	$("#ConfirmPassword").keyup(function(){
+		var password = document.getElementById("Password");
+		if (this.value !== password.value) {
+			$('#ConfirmPassword').css('border-color', 'red');
+			confPass = true;
+		}
+		else {
+			$('#ConfirmPassword').css('border-color', 'green');
+			confPass = false;
+		}
+	})
+	$("#Password").keyup(function(){
+		var password = document.getElementById("Password");
+		if (this.value.length < 5) {
+			$('#Password').css('border-color', 'red');
+			passEror = true;
+		}
+		else {
+			$('#Password').css('border-color', 'green');
+			passEror = false;
+		}
+	})
+	$("register").on("submit", function(e){
+		if(idEror == true || confPass == true || passEror == true) {
+			alert('This information is irreliable, please edit the submitted information');
+    		e.preventDefault();
+			window.href = "SignUp.php";
+  		}
+	})
+</script> -->
 </body>
 </html>

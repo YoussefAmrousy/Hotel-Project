@@ -83,12 +83,7 @@
                                         type: "POST",
                                         data: {id:id, reason: reason},
                                         success: function() {
-                                            if (row == "True") {
-                                            row = "False";
-                                            }
-                                            else {
-                                            row ="True";
-                                            }
+                                            alert("Done");
                                         },
                                         error: function() {
                                             alert("Error");
