@@ -123,7 +123,7 @@ body {
         </div>
 		Profile Picture:
 		<div class="form-group">
-            <input type="file"  name="Profilepic" required="required">
+            <input type="file"  name="Profilepic">
         </div>
 		<div class="form-group">
             <input type="text" class="form-control" id='Nationalid' name="Nationalid" placeholder="Enter National ID (14 Digit)" min="14" max="14" required="required">
@@ -142,8 +142,8 @@ body {
 	<div class="text-center"><a href="Login.php">Already have an account?</a></div>
 </div>
 <?php
-require_once 'dbConnection.php';
-require_once 'errorHandling.php';
+require 'dbConnection.php';
+//require_once 'errorHandling.php';
 
 if (isset($_SESSION['Email'])) {	
 	echo "<script>
@@ -165,12 +165,14 @@ if(isset($_POST['Submit'])) {
 	session_unset();
 	setcookie("Email", "", time() - 10000);
 	setcookie("Password", "", time() - 10000);
-	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, Address, NationID) values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."')";
+	// $sql = "INSERT INTO users(FirstName, LastName, Email, Password, Address, NationID) 
+	// values('".$_POST['Fname']."','".$_POST['Lname']."','".$_POST['Email']."','".$_POST['Password']."','".$_POST['Address']."','".$_POST['Nationalid']."')";
+	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, Address, NationID) values('Ahmed', 'Sayed', 'ahmed@gmail.com', '12345', 'eee', '1234567')";
 	$result = mysqli_query($conn, $sql);
 	if ($result) {
 		echo "<script>
 		alert('Registered Successfully');
-		window.location.href ='home.php';
+		window.location.href ='login.php';
 		</script>";
 	}
 	// if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname']) || !preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {

@@ -1,26 +1,24 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Homepage</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="icon" href="favicon.png">
-</head>
-
-<?php include "navbar.php";?>
-<header class="w3-display-container w3-content" style="max-width:1500px;">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {box-sizing: border-box}
-body {font-family: Verdana, sans-serif; margin:0}
+body {
+  font-family: Verdana, sans-serif;
+   margin:0;
+   background-image: url("images.jfif");
+   height: 100%;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   }
 .mySlides {display: none}
 img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1500px;
+  max-width: 1000px;
   position: relative;
   margin: auto;
 }
@@ -54,18 +52,19 @@ img {vertical-align: middle;}
 
 /* Caption text */
 .text {
-  color: #f2f2f2;
+  color: #000000;
   font-size: 15px;
   padding: 8px 12px;
   position: absolute;
   bottom: 8px;
   width: 100%;
   text-align: center;
+  font-weight: bold;
 }
 
 /* Number text (1/3 etc) */
 .numbertext {
-  color: #f2f2f2;
+  color: #000000;
   font-size: 12px;
   padding: 8px 12px;
   position: absolute;
@@ -106,30 +105,39 @@ img {vertical-align: middle;}
 </style>
 </head>
 <body>
-
+<?php include 'navbar.php'; ?>
+<br>
 <div class="slideshow-container">
+  <center><div class="mySlides fade">
+    <div class="numbertext">1 / 5</div>
+    <img src="3.jpg" style="width:60%">
+    <div class="text">Gym</div>
+  </div>
 
-<div class="mySlides fade">
-  <div class="numbertext">1 / 3</div>
-  <img src="3.jpg" style="width:100%">
-  
-</div>
+  <div class="mySlides fade">
+    <div class="numbertext">2 / 5</div>
+    <img src="2.jpg" style="width:60%">
+    <div class="text">Massage</div>
+  </div>
 
-<div class="mySlides fade">
-  <div class="numbertext">2 / 3</div>
-  <img src="2.jpg" style="width:100%">
-  
-</div>
+  <div class="mySlides fade">
+    <div class="numbertext">3 / 5</div>
+    <img src="1.jpg" style="width:60%">
+    <div class="text">Aquapark</div>
+  </div>
+  <div class="mySlides fade">
+    <div class="numbertext">4 / 5</div>
+    <img src="images/restaurant.jfif" style="width:60%">
+    <div class="text">Restaurant</div>
+  </div>
+  <div class="mySlides fade">
+    <div class="numbertext">5 / 5</div>
+    <img src="images/home_gallery3.jpg" style="width:60%">
+    <div class="text">Pool</div>
+  </div>
 
-<div class="mySlides fade">
-  <div class="numbertext">3 / 3</div>
-  <img src="1.jpg" style="width:100%">
-  
-</div>
-
-<a class="prev" onclick="plusSlides(-1)">❮</a>
-<a class="next" onclick="plusSlides(1)">❯</a>
-
+  <a class="prev" onclick="plusSlides(-1)">❮</a>
+  <a class="next" onclick="plusSlides(1)">❯</a>
 </div>
 <br>
 
@@ -137,7 +145,9 @@ img {vertical-align: middle;}
   <span class="dot" onclick="currentSlide(1)"></span> 
   <span class="dot" onclick="currentSlide(2)"></span> 
   <span class="dot" onclick="currentSlide(3)"></span> 
-</div>
+  <span class="dot" onclick="currentSlide(4)"></span> 
+  <span class="dot" onclick="currentSlide(5)"></span> 
+</div></center>
 
 <script>
 let slideIndex = 1;
@@ -169,5 +179,4 @@ function showSlides(n) {
 </script>
 
 </body>
-</header>
-</html>
+</html> 
