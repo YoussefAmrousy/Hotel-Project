@@ -10,8 +10,7 @@ body {
 </style>
         <link rel="icon" href="favicon.png">
         <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 <header>
     <?php include 'navbar.php'; ?>
@@ -64,9 +63,7 @@ body {
                         <h2 class="large-text">Double Room</h2>
                         <h4>Price: $80/night</h4>
                     
-                    <img src="./images/home_gallery4.jpg" style=
-    "height:600px;
-    width:600px;"> 
+                    <img src="./images/home_gallery4.jpg" style="height:600px;width:600px;"> 
                 <br>
     
 
@@ -82,9 +79,7 @@ body {
                         <h2 class="large-text">Triple Room</h2>
                         <h4>Price: $100/night</h4>
                    
-                    <img src="./images/family_room.jpg" style=
-    "height:600px;
-    width:600px;">
+                    <img src="./images/family_room.jpg" style="height:600px;width:600px;">
                 <br>
     
                 

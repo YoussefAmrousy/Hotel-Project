@@ -166,7 +166,7 @@ if(isset($_POST['Submit'])) {
 	$lastname = $_POST['Lname'];
 	$email = $_POST['Email'];
 	$password = $_POST['Password'];
-	$nationid = $_POST['NationID'];
+	$nationid = $_POST['Nationalid'];
 	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, NationID) values('".$firstname."','".$lastname."','".$email."','".$password."','".$nationid."')";
 	$result = mysqli_query($conn, $sql);
 	if ($result) {
@@ -251,7 +251,7 @@ if(isset($_POST['Submit'])) {
 	
 		}
 ?>
-<!-- <script>
+<script>
 	var idEror;
 	var confPass;
 	var passEror;
@@ -290,10 +290,10 @@ if(isset($_POST['Submit'])) {
 	$("register").on("submit", function(e){
 		if(idEror == true || confPass == true || passEror == true) {
 			alert('This information is irreliable, please edit the submitted information');
-    		e.preventDefault();
-			window.href = "SignUp.php";
+    		// e.preventDefault();
+			// window.href = "SignUp.php";
   		}
 	})
-</script> -->
+</script>
 </body>
 </html>
