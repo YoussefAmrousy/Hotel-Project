@@ -73,13 +73,20 @@ if(session_id() == '') {
 			$sql="select * from users where Email ='".$_POST['Email']."' and Password='".$_POST['Password']."'";
 			$result = mysqli_query($conn,$sql) or die( mysqli_error($conn));
 			if($row=mysqli_fetch_array($result,)) {
-				$_SESSION["ID"]= $row["ID"];
-				$_SESSION["Fname"]= $row["FirstName"];
-				$_SESSION["Lname"] = $row["LastName"];
-				$_SESSION["Email"]=$row["Email"];
-				header("Location:home.php");
-				setcookie("Email", $_SESSION['Email'], 0);
-				setcookie("Password", $_POST['Password'], 0);
+				if ($row['Pending'] == "No") {
+					$_SESSION["ID"]= $row["ID"];
+					$_SESSION["Fname"]= $row["FirstName"];
+					$_SESSION["Lname"] = $row["LastName"];
+					$_SESSION["Email"]=$row["Email"];
+					header("Location:home.php");
+					setcookie("Email", $_SESSION['Email'], 0);
+					setcookie("Password", $_POST['Password'], 0);
+				}
+				else {
+					echo "<script>
+					alert('Account is still pending, please wait for acceptence')
+					</script>";
+				}
 			}
 			else {
 				echo "<script>

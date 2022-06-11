@@ -26,11 +26,6 @@ require_once 'dbconnection.php';
             <a href='reservationList.php' id='reservationList' class='w3-bar-item w3-button w3-red w3-mobile'>Reservation List</a>
             <a href='feedback.php' id='reservationList' class='w3-bar-item w3-button w3-red w3-mobile'>Rate</a>
             <a href='SignOut.php' id='signout' class='w3-bar-item w3-button w3-red w3-mobile'>Sign Out</a>";
-            $sql = "SELECT * FROM rooms WHERE UserID =".$_SESSION['ID'];
-            $result = mysqli_query($conn, $sql);
-            if ($result->num_rows > 0) {
-                echo "<a href='checkIn.php' id='book' class='w3-bar-item w3-button w3-red w3-right  w3-mobile'>Check In</a>";
-            }
         }
         else {
             echo "<a href='Login.php' target='' id='login' class='w3-bar-item w3-button w3-red w3-mobile'>Login</a>";
