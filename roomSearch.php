@@ -4,6 +4,15 @@
         <link rel="icon" href="favicon.png">
     </head>
     <body>
+        <style>
+            .button {
+                transition-duration: 0.4s;
+            }
+            .button:hover {
+                background-color: #f44336; /* Green */
+                color: white;
+            }
+            </style>
         <?php include "adminHome.php"; ?>
         <br><br><br>
         <h2>Room Search</h2>
@@ -13,8 +22,8 @@
             <label for="RoomNo">Room Number</label><br>
             <input type="radio" name="searchOption" value="name">
             <label for="name">Name</label><br>
-            <input type="text" name="searchValue"><br>
-            <input type="submit" name="search" value="Search">
+            <input type="text" name="searchValue"><br><br>
+            <input type="submit" name="search" value="Search" class="button">
         </form>
         </div>
         <?php

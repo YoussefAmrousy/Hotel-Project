@@ -3,25 +3,11 @@
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <link rel="icon" href="favicon.png">
 </head>  
 <body style="height:auto">
-<script>
-$(function () {
-     var url = window.location.href;
-     $(".navbar-nav .nav-link").each(function () {
-         // checks if its the same on the address bar.
-          if (url == (this.href)) {
-               $(this).closest("li").addClass("active");
-                //for making parent of submenu active
-                 $(this).closest("li").parent().parent().addClass("active");
-                }
-            });
-            });
-</script>
 <?php
 require_once 'dbconnection.php';
         if(session_id() == '') {

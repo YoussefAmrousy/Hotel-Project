@@ -10,8 +10,10 @@ if(session_id() == '') {
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<link rel="icon" href="favicon.png">
 <style>
 body {
@@ -96,8 +98,8 @@ body {
  background-size: cover;
 }
 
-.text-center {
-	color: black;
+#NationalIDError {
+	color: red;
 }
 </style>
 </head>
@@ -138,8 +140,8 @@ body {
 	<div class="text-center"><a href="Login.php">Already have an account?</a></div>
 </div>
 <?php
-require 'dbConnection.php';
-//require_once 'errorHandling.php';
+require_once 'dbConnection.php';
+require_once 'errorHandling.php';
 
 if (isset($_SESSION['Email'])) {	
 	echo "<script>
@@ -148,119 +150,76 @@ if (isset($_SESSION['Email'])) {
 	</script>";
 	trigger_error("Already Logged In");
 }
-
-// if(isset($_POST['submit'])) { 
-// 	$sql="select * from users where Email = '".$_POST["Email"]."'";
-// 	$result = mysqli_query($conn, $sql);
-// 	if ($result->num_rows > 0) {
-// 		echo "<script>
-// 		alert('This Email is already taken, choose another one')
-// 		</script>";
-// 		trigger_error("Email taken");
-// 	}
-	// if (!preg_match("/^[a-zA-Z-']*$/",$_POST['Fname']) || !preg_match("/^[a-zA-Z-']*$/",$_POST['Lname'])) {
-	// 		echo "<script>
-	// 		alert('Only letters and white space allowed');
-	// 		</script>";
-	// 		trigger_error("Wrong Name Format");
-	// }
-	// $sqlID = "select * from users where NationID = '".$_POST['Nationalid']."'";
-	// $resultID = mysqli_fetch_array($conn, $sqlID);
-	
-	// }
-	// else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
-	// 	echo "<script>
-	// 	alert('Those passwords doesn\'t match')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-	
-	// else if (strlen($_POST['Password']) < 5) {
-	// 	echo "<script>
-	// 	alert('Password length should be at least 5 characters')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-
-	// }
-	
-	// else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
-	// 	echo "<script>
-	// 	alert('Invalid Email Address')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-	
-	// else if (str_contains($_POST['Email'], "@grnd.com")) {
-	// 	echo "<script>
-	// 	alert('You can\'t use this email domain, choose another email')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-	
-	// else if (strlen($_POST['Nationalid']) != 14) {
-	// 	echo "<script>
-	// 	alert('Invalid National ID number')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// }
-	
-	// else if (!is_numeric($_POST['Nationalid'])) {
-	// 	echo "<script>
-	// 	alert('Enter a valid National ID')
-	// 	</script>";
-	// 	$_SESSION['Fname'] = $_POST['Fname'];
-	// 	$_SESSION['Lname'] = $_POST['Lname'];
-	// 	$_SESSION['Email'] = $_POST['Email'];
-	// 	$_SESSION['Address'] = $_POST['Address'];
-	// 	$_SESSION['Nationalid'] = $_POST['Nationalid'];
-	// }
-		// }
+if (isset($_POST['submit'])) {
+    	$sql="select * from users where Email = '".$_POST["Email"]."'";
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows > 0) {
+		    echo "<script>
+		    alert('This Email is already taken, choose another one')
+		    </script>";
+		    trigger_error("Email taken");
+	    }
+        else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
+		    echo "<script>
+		    alert('Those passwords doesn\'t match, please try again')
+		    </script>";
+            trigger_error("Wrong passwords");
+        }
+        else if (strlen($_POST['Password']) < 5) {
+            echo "<script>
+            alert('Password length should be at least 5 characters, try again')
+            </script>";
+            trigger_error("Password length");
+        }
+        else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
+            echo "<script>
+		    alert('Invalid Email Address')
+		    </script>";
+            trigger_error("Password length");
+        }
+        else if (str_contains($_POST['Email'], "@grnd.com")) {
+            echo "<script>
+		    alert('You can\'t use this email domain, choose another email')
+		    </script>";
+            trigger_error("Wrong Email");
+        }
+        else if (strlen($_POST['Nationalid']) != 14) {
+            echo "<script>
+		    alert('Invalid National ID number')
+		    </script>";
+            trigger_error("Invalid National ID");
+        }
+        else if (!is_numeric($_POST['Nationalid'])) {
+            echo "<script>
+		    alert('Enter a valid National ID')
+		    </script>";
+            trigger_error("Invalid National ID");
+        }
+        else {
+            session_unset();
+            setcookie("Email", "", time() - 10000);
+            setcookie("Password", "", time() - 10000);
+            $firstname = $_POST['Fname'];
+            $lastname = $_POST['Lname'];
+            $email = $_POST['Email'];
+            $password = $_POST['Password'];
+            echo "<script>
+            alert('".$password."')
+            </script>";
+            $nationid = $_POST['Nationalid'];
+            $sql = "INSERT INTO users(FirstName, LastName, Email, Password, NationID) values('".$firstname."','".$lastname."','".$email."','".$password."','".$nationid."')";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                echo "<script>
+                alert('Registered Successfully, Please wait until the recepionist accept your request');
+                window.location.href ='Login.php';
+                </script>";
+            }
+        }
+    }	
 ?>
-<script type="text/javascript">
-	$(document).ready(function() {
-	// var idEror, confPass, passEror, emailEror;
-	// $("#Email").keyup(function() {
-	// 	var email = this.value;
-	// 	if (email.length != "") {
-	// 		if (email.includes("@") & email.includes(".com", email.length-4)) {
-	// 			$.ajax({
-	// 				url: "validateEmail.php",
-	// 				type: "POST",
-    //             	data: 'email=' + email,
-    //             	success: function(data) {
-	// 					if (data == 1) {
-	// 						alert("bdany");
-	// 						$('#Email').css('border-color', 'red');
-	// 						emailEror = true;
-	// 						// $('#Email').css('border-color', 'green');
-	// 						// emailEror = false;
-	// 					}
-	// 				},
-	// 				error: function() {
-	// 					alert("yarab");
-	// 				}
-	// 			});
-	// 		}
-	// 	}
-	// })
-
+<script>
+	var idEror, confPass, passEror, emailEror;
 	$("#Nationalid").keyup(function(){
 		if(jQuery.isNumeric(this.value) == false || this.value.length != 14){
 			$('#Nationalid').css('border-color', 'red');
@@ -292,28 +251,6 @@ if (isset($_SESSION['Email'])) {
 			$('#Password').css('border-color', 'green');
 			passEror = false;
 		}
-	})
-	$("form").on("submit", function(e){
-		if(idEror == true || confPass == true || passEror == true) {
-			alert('This information is irreliable, please edit the submitted information');
-			window.href = "SignUp.php";
-  		}
-		else {
-			var fname = document.getElementById("Fname").value;
-			var lname = document.getElementById("Lname").value;
-			var email = document.getElementById("Email").value;
-			var nationID = document.getElementById("Nationalid").value;
-			var password = document.getElementById("Password").value;
-			$.ajax({
-				url: "Register.php",
-                type: "POST",
-                data: {Fname: fname, Lname: lname, Email: email, NationID: nationID, Password: password},
-                success: function(res) {
-					alert("raye2");
-				}
-			});
-		}
-	})
 	})
 </script>
 </body>

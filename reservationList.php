@@ -1,28 +1,20 @@
 <html>
     <head>
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <title>Reservation List</title>
         <link rel="icon" href="favicon.png">
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
     <body>
         <?php include 'navbar.php'; ?>
-        <br><br><br>
-        <h2>Reservation List</h2>
-                <?php
-                if(session_id() == '') {
-                    session_start();
-                }
-                if (!isset($_SESSION['Email'])) {
-                    echo "<script>
-                    window.location.href ='home.php';
-                    alert('You don\'t have access to this page')
-                    </script>";
-                }
-                require_once "dbConnection.php";
-                $sql = "SELECT * FROM rooms WHERE UserID = '".$_SESSION['ID']."'";
-                $result = mysqli_query($conn, $sql);
-                if ($result->num_rows > 0) {
-                    echo "<table class='table table-hover' id='checkOutTable' style='width:90%;margin-left: auto;margin-right:auto;'>
+        <h2>Manage Rooms</h2>
+        <?php
+        require_once "dbconnection.php";
+        $sql = "SELECT * FROM rooms WHERE UserID = ".$_SESSION['ID'];
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows > 0) {
+            ?>
+            <table class='table table-hover' id='manageRoomsTable' style='width:90%;margin-left: auto;margin-right:auto;'>
                         <thead class='thead-dark'>
                             <tr>
                                 <th scope='col'>User ID</th>
@@ -36,54 +28,49 @@
                                 <th scope='col'>Paid</th>
                                 <th scope='col'>Delete</th>
                             </tr>
-                        </thead>";
-                    while($row = $result->fetch_assoc()) {
-                        $roomNo = $row['RoomNumber'];
-                        echo "<tr id='".$roomNo."'>
-                        <th scope='row'>".$row["UserID"]."</th>
-                        <td>".$row['Name']."</td>
-                        <td>".$row['RoomType']."</td>
-                        <td>".$roomNo."</td>
-                        <td>".$row['Board']."</td>
-                        <td>".$row['Extra']."</td>
-                        <td>".$row['CheckinDate']."</td>
-                        <td>".$row['CheckoutDate']."</td>
-                        <td>".$row['Paid']."</td>
-                        <td><button type='button' class='deleteRoom' id='".$roomNo."' value='Delete'>Delete</button></td>
-                        </tr>";
-                    }
-                    echo "</tbody></table>";
+                        </thead>
+                        <?php
+                        while($row = $result->fetch_assoc()) {
+                            $roomNo = $row['RoomNumber'];
+                            echo "<tr id='".$roomNo."'>
+                            <th scope='row'>".$row["UserID"]."</th>
+                            <td>".$row['Name']."</td>
+                            <td>".$row['RoomType']."</td>
+                            <td>".$roomNo."</td>
+                            <td>".$row['Board']."</td>
+                            <td>".$row['Extra']."</td>
+                            <td>".$row['CheckinDate']."</td>
+                            <td>".$row['CheckoutDate']."</td>
+                            <td>".$row['Paid']."</td>
+                            <td><button type='button' class='deleteRoom' id='".$roomNo."' value='Delete'>Delete</button></td>
+                            </tr>";
+                        }
+                        ?>
+                        </tbody></table>
+                        <?php
+                        }
+                        else {
+                            echo "No Data to show";
+                        }
                         ?>
                         <script>
                             $(document).ready(function(){
                                 $('.deleteRoom').click(function(){
                                     var el = this;
-                                    var roomID = $(this).attr('id');
-                                    if (confirm("Do you really want to delete this row?")) {
+                                    var roomNo = $(this).attr('id');
                                         $.ajax({
-                                            url: 'delete.php',
-                                            type: 'GET',
-                                            data: {id: roomID},
+                                            url: 'deleteRoom.php',
+                                            type: 'POST',
+                                            data: {roomNo: roomNo},
                                             success: function(response){
-                                                if(response == 1){
-                                                    $(this).closest('tr').remove();
-                                                }
-                                                else{
-                                                    alert('Record not deleted.');
-                                                }
+                                                    $(el).closest('tr').remove();
+                                            },
+                                            error: function(response) {
+                                                alert("Unable to delete room, try again");
                                             }
                                         });
-                                    }
                             });
                         });
                     </script>
-                    <?php
-                }
-                else {
-                    echo "No Data to show";
-                }
-                    ?>
-            </tbody>
-        </table>
-    </body>
-</html>
+        </body>
+        </html>

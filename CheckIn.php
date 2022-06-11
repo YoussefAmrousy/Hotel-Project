@@ -1,23 +1,16 @@
 <html>
     <head>
-        <title>Manage Rooms</title>
+        <title>Reservation List</title>
         <link rel="icon" href="favicon.png">
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
     <body>
-        <?php include "adminHome.php"; ?>
-        <br><br><br>
+        <?php include 'navbar.php'; ?>
         <h2>Manage Rooms</h2>
         <?php
         require_once "dbconnection.php";
-        if (!isset($_SESSION['Role'])) {
-            echo "<script>
-            window.location.href ='home.php';
-            alert('You don\'t have access to this page')
-            </script>";
-        }
-        $sql = "SELECT * FROM rooms";
+        $sql = "SELECT * FROM rooms WHERE UserID = ".$_SESSION['ID'];
         $result = mysqli_query($conn, $sql);
         if ($result->num_rows > 0) {
             ?>
@@ -45,7 +38,6 @@
                             <td>".$row['RoomType']."</td>
                             <td>".$roomNo."</td>
                             <td>".$row['Board']."</td>
-                            <td>".$row['Extra']."</td>
                             <td>".$row['CheckinDate']."</td>
                             <td>".$row['CheckoutDate']."</td>
                             <td>".$row['Paid']."</td>
@@ -65,8 +57,6 @@
                                 $('.deleteRoom').click(function(){
                                     var el = this;
                                     var roomNo = $(this).attr('id');
-                                    var prom = prompt("Enter PIN to delete this room: ");
-                                    if (prom != "" || prom != NULL || prom == "7802") {
                                         $.ajax({
                                             url: 'deleteRoom.php',
                                             type: 'POST',
@@ -78,10 +68,6 @@
                                                 alert("Unable to delete room, try again");
                                             }
                                         });
-                                    }
-                                    else {
-                                        alert("Wrong PIN code, please ask your manage for the correct PIN");
-                                    }
                             });
                         });
                     </script>

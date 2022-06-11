@@ -1,5 +1,6 @@
 <?php
 require_once 'dbconnection.php';
+require 'errorHandling.php';
 if(session_id() == '') {
 	session_start();
 }
@@ -68,7 +69,7 @@ if(session_id() == '') {
 					</script>";
 				}
 		}
-		
+		else {
 			$sql="select * from users where Email ='".$_POST['Email']."' and Password='".$_POST['Password']."'";
 			$result = mysqli_query($conn,$sql) or die( mysqli_error($conn));
 			if($row=mysqli_fetch_array($result,)) {
@@ -85,7 +86,7 @@ if(session_id() == '') {
 				alert('Invalid Email or Password ')
 				</script>";
 			}
-		
+		}
 	}
 	?>
 	
