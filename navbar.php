@@ -43,7 +43,7 @@ require_once 'dbconnection.php';
             $sql = "SELECT * FROM rooms WHERE UserID =".$_SESSION['ID'];
             $result = mysqli_query($conn, $sql);
             if ($result->num_rows > 0) {
-                echo "<a href='UserBooking.php' id='book' class='w3-bar-item w3-button w3-red w3-right  w3-mobile'>Check In</a>";
+                echo "<a href='checkIn.php' id='book' class='w3-bar-item w3-button w3-red w3-right  w3-mobile'>Check In</a>";
             }
         }
         else {

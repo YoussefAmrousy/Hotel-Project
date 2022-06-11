@@ -94,6 +94,7 @@
         </p>
       </form>
     </div>
+    
 <?php 
 if(session_id() == '') {
 	session_start();
@@ -101,21 +102,18 @@ if(session_id() == '') {
 require_once 'dbconnection.php';
 if (isset($_POST['submit'])) {
   $id = $_SESSION['ID'];
-  echo "<script>alert(".$id.")</script>";
   $Name = $_SESSION['Fname'] . " " . $_SESSION['Lname'];
-  $Quality = $conn->real_escape_string($_POST['rate']);
-  $Feedback = $conn->real_escape_string($_POST['suggestion']);
-  $sql="INSERT INTO feedback VALUES ('".$id."','".$Name."', '".$Quality."', '".$Feedback."')";
+  $Quality = $_POST['rate'];
+  $Feedback = $_POST['suggestion'];
+  $sql="INSERT INTO feedback(UserID, Name, Quality, Suggestions) VALUES ('".$id."','".$Name."', '".$Quality."', '".$Feedback."')";
   $result = mysqli_query($conn, $sql);
   if ($result) {
     echo "<script>
-    alert('Done yala')
+    alert('Thank you for your comment, We'll to try to take your words into consideration')
     </script>";
   }
   else {
-    echo "<script>
-    alert('bdan khawal')
-    </script>";
+    trigger_error("Database Error");
   }
 }
 ?>

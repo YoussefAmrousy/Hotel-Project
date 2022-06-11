@@ -1,7 +1,7 @@
 <html>
     <head>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="icon" href="favicon.png">
     </head>
     <body>
@@ -66,7 +66,6 @@
                                             data: {id: roomID},
                                             success: function(response){
                                                 if(response == 1){
-                                                    $(el).closest('tr').css('background','tomato');
                                                     $(this).closest('tr').remove();
                                                 }
                                                 else{
