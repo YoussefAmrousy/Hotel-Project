@@ -10,8 +10,6 @@ if(session_id() == '') {
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<link rel="icon" href="favicon.png">
@@ -238,22 +236,38 @@ if (isset($_SESSION['Email'])) {
 <script>
 	var idEror, confPass, passEror, emailEror;
 	$("#Email").keyup(function() {
-		if (this.value != "") {
+		var email = this.value;
+		if (email.length != "") {
+			// $.ajax({
+			// 	url: "validateEmail.php",
+			// 	type: "POST",
+            //     data: {email: email},
+            //     success: function(data) {
+			// 		var json = JSON.parse(data);
+			// 		if (json.success) {
+			// 			alert("bdany");
+			// 			$('#Email').css('border-color', 'red');
+			// 			emailEror = true;
+			// 		}
+			// 		else {
+			// 			$('#Email').css('border-color', 'green');
+			// 			emailEror = false;
+			// 		}
+			// 	},
+			// 	error: function() {
+			// 	}
+			// });
 			$.ajax({
-				url: "validateEmail.php",
-				type: "POST",
-                data: {email: this.value},
-                success: function(data) {
-					if (data == "true") {
-						$('#Email').css('border-color', 'red');
-						emailEror = true;
-					}
-				},
-				error: function() {
-					$('#Email').css('border-color', 'green');
-					emailEror = false;
-				}
-			});
+                                        url: "validateEmail.php",
+                                        type: "POST",
+                                        data: {email:email},
+                                        success: function(res) {
+                                           alert("Deleted");
+                                        },
+                                        error: function(res) {
+                                            alert("Unable to delete Account");
+                                        }
+                                    });
 		}
 	})
 	$("#Nationalid").keyup(function(){

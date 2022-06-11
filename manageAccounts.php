@@ -68,6 +68,9 @@
                                         data: {id:id},
                                         success: function(res) {
                                             $(btn).closest('tr').remove();
+                                        },
+                                        error: function(res) {
+                                            alert("Unable to delete Account");
                                         }
                                     });
                                 }
@@ -91,7 +94,7 @@
                                             }
                                         },
                                         error: function() {
-                                            alert("Error");
+                                            alert("Unable to restrict Account");
                                         }
                                     })
                                 }
