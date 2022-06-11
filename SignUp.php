@@ -124,13 +124,13 @@ body {
             <input type="file"  name="Profilepic">
         </div>
 		<div class="form-group">
-            <input type="text" class="form-control" id='Nationalid' name="Nationalid" placeholder="Enter National ID (14 Digit)" min="14" max="14" required="required">
+            <input type="text" class="form-control" id='Nationalid' name="Nationalid" placeholder="Enter National ID (14 Digit)" minlength="14" maxlength="14" required="required">
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" id='Password' name="Password" placeholder="Password" required="required">
+            <input type="password" class="form-control" id='Password' name="Password" placeholder="Password" minlength="5" required="required">
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" id='ConfirmPassword' name="ConfirmPassword" placeholder="Confirm Password" required="required">
+            <input type="password" class="form-control" id='ConfirmPassword' name="ConfirmPassword" placeholder="Confirm Password" minlength="5" required="required">
         </div>        
         <div class="form-group">
             <input type="submit" name="submit" class="btn btn-success btn-lg btn-block" value="Reigster"></button>
@@ -149,55 +149,40 @@ if (isset($_SESSION['Email'])) {
 	</script>";
 	trigger_error("Already Logged In");
 }
+
 if (isset($_POST['submit'])) {
     	$sql="select * from users where Email = '".$_POST["Email"]."'";
         $result = mysqli_query($conn, $sql);
-        if ($result->num_rows > 0) {
+        if (!is_numeric($_POST['Nationalid'])) {
+            echo "<script>
+		    alert('Enter a valid National ID')
+		    </script>";
+            trigger_error("Invalid National ID");
+        }
+        else if ($result->num_rows > 0) {
 		    echo "<script>
 		    alert('This Email is already taken, choose another one')
 		    </script>";
-		    // trigger_error("Email taken");
+		    trigger_error("Email taken");
 	    }
         else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
 		    echo "<script>
 		    alert('Those passwords doesn\'t match, please try again')
 		    </script>";
-            // trigger_error("Wrong passwords");
-        }
-        else if (strlen($_POST['Password']) < 5) {
-            echo "<script>
-            alert('Password length should be at least 5 characters, try again')
-            </script>";
-            // trigger_error("Password length");
+            trigger_error("Wrong passwords");
         }
         else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
             echo "<script>
 		    alert('Invalid Email Address')
 		    </script>";
-            // trigger_error("Password length");
+            trigger_error("Password length");
         }
         else if (str_contains($_POST['Email'], "@grnd.com")) {
             echo "<script>
 		    alert('You can\'t use this email domain, choose another email')
 		    </script>";
-            // trigger_error("Wrong Email");
+            trigger_error("Wrong Email");
         }
-        else if (strlen($_POST['Nationalid']) != 14) {
-            echo "<script>
-		    alert('Invalid National ID number')
-		    </script>";
-            // trigger_error("Invalid National ID");
-        }
-        else if (!is_numeric($_POST['Nationalid'])) {
-            echo "<script>
-		    alert('Enter a valid National ID')
-		    </script>";
-            // trigger_error("Invalid National ID");
-        }
-        else {
-            session_unset();
-            setcookie("Email", "", time() - 10000);
-            setcookie("Password", "", time() - 10000);
             $firstname = $_POST['Fname'];
             $lastname = $_POST['Lname'];
             $email = $_POST['Email'];
@@ -212,7 +197,6 @@ if (isset($_POST['submit'])) {
                 </script>";
             }
         }
-    }	
 ?>
 <script>
 	var idEror, confPass, passEror, emailEror;
