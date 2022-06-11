@@ -110,7 +110,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                     
                     if ($roomsResult->num_rows >= 10) {
                         echo "<script>
-                        window.location.href ='home.php';
                         alert('There isn\'t any Single rooms available')
                         </script>";
                         trigger_error("No Empty Single Rooms");
@@ -158,7 +157,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                     
                     if ($roomsResult->num_rows >= 10) {
                         echo "<script>
-                        window.location.href ='home.php';
                         alert('There isn\'t any Double rooms available')
                         </script>";
                         trigger_error("No Empty Double Rooms");
@@ -207,7 +205,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                     
                     if ($roomsResult->num_rows >= 10) {
                         echo "<script>
-                        window.location.href ='home.php';
                         alert('There isn\'t any Triple rooms available')
                         </script>";
                         trigger_error("No Empty Triple Rooms");
