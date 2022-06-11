@@ -75,7 +75,7 @@ p{
     outline:none;
     border-color:#f7c08a
 }
-        </style>
+</style>
 </head>
 <body>
 
@@ -86,15 +86,15 @@ p{
             <form method="post">
                 <div class="form-group">
                    <laber for="name">Name</laber>
-                   <input type="text" name="Name" id="Name">
+                   <input type="text" name="Name">
                 </div>
                 <div class="form-group">
                    <laber for="email">Email</laber>
-                   <input type="email" name="email" id="email">
+                   <input type="email" name="email">
                 </div>
                 <div class="form-group">
                    <laber for="message">Message</laber>
-                   <textarea type="email" name="message" id="message"></textarea>
+                   <textarea type="email" name="message"></textarea>
                 </div>
                 <button type="submit" class="btn">Submit</button>
             </form>
