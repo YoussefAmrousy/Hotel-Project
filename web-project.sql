@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2022 at 04:05 PM
+-- Generation Time: Jun 11, 2022 at 08:08 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `web-project`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `SuggestionID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `Name` varchar(1000) NOT NULL,
+  `Quality` varchar(1000) NOT NULL,
+  `Suggestions` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`SuggestionID`, `UserID`, `Name`, `Quality`, `Suggestions`) VALUES
+(1, 12, 'test test', '5', 'test'),
+(2, 2, 'eee eee', '', '');
 
 -- --------------------------------------------------------
 
@@ -56,16 +78,18 @@ CREATE TABLE `rooms` (
   `Extra` varchar(30) NOT NULL,
   `CheckinDate` date NOT NULL,
   `CheckoutDate` date NOT NULL,
-  `Paid` varchar(30) NOT NULL
+  `Paid` varchar(30) NOT NULL,
+  `Pending` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`UserID`, `Name`, `RoomType`, `RoomNumber`, `Board`, `Extra`, `CheckinDate`, `CheckoutDate`, `Paid`) VALUES
-(2, 'eee eee', 'Single', 1, 'Breakfast only', '', '2022-05-31', '2022-06-01', 'Yes'),
-(2, 'eee eee', 'Single', 2, 'Breakfast only', '', '2022-06-01', '2022-06-02', 'Yes');
+INSERT INTO `rooms` (`UserID`, `Name`, `RoomType`, `RoomNumber`, `Board`, `Extra`, `CheckinDate`, `CheckoutDate`, `Paid`, `Pending`) VALUES
+(30, 'wkkw wkwk', 'Double', 11, 'Half Board', '', '2022-06-07', '2022-06-29', 'Yes', 'No'),
+(31, 'king amrousy', 'Single', 1, 'Breakfast only', '', '2022-06-14', '2022-06-22', 'Yes', 'No'),
+(29, 'zz zz', 'Single', 2, 'Breakfast only', '', '2022-06-15', '2022-06-22', 'Yes', '');
 
 -- --------------------------------------------------------
 
@@ -79,16 +103,16 @@ CREATE TABLE `staff` (
   `Email` varchar(200) NOT NULL,
   `Password` varchar(100) NOT NULL,
   `Role` enum('Receptionist','QA') NOT NULL,
-  `Enabled` enum('True','False') NOT NULL
+  `Enabled` enum('True','False') NOT NULL,
+  `Comments` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `staff`
 --
 
-INSERT INTO `staff` (`StaffID`, `Name`, `Email`, `Password`, `Role`, `Enabled`) VALUES
-(10, 'sss', 'sss@grnd.com', '12345', 'QA', 'True'),
-(11, 'wkwk', 'wkwkkw@grnd.com', 'wkwkw', 'QA', 'True');
+INSERT INTO `staff` (`StaffID`, `Name`, `Email`, `Password`, `Role`, `Enabled`, `Comments`) VALUES
+(42, 'sksk', 'ksksks@grnd.com', 'kssksk', 'Receptionist', 'False', 'Test');
 
 -- --------------------------------------------------------
 
@@ -102,31 +126,32 @@ CREATE TABLE `users` (
   `LastName` varchar(30) NOT NULL,
   `Email` varchar(30) NOT NULL,
   `Password` text NOT NULL,
-  `Address` text NOT NULL,
   `profile` text NOT NULL,
   `NationID` text NOT NULL,
-  `Pending` varchar(10) NOT NULL
+  `Pending` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Email`, `Password`, `Address`, `profile`, `NationID`, `Pending`) VALUES
-(1, 'Youssef', 'Alamrousy', 'youssef@gmail.com', '12345', 'ekkekw', '', '12345678901234', ''),
-(2, 'eee', 'eee', 'youssef.amrousy@gmail.com', '12345', 'wkwkk', '', '12345678901234', 'Yes'),
-(3, 'djfdj', 'jsjsjs', 'skss@gmail.com', '12345', 'skks', '', '12345', ''),
-(4, 'sksk', 'sksk', 'skskks@gmail.com', '', '', '', '', ''),
-(5, 'sksk', 'sksk', 'skskks@gmail.com', '', '', '', '', ''),
-(6, 'gg', 'gg', 'gg@gmail.com', '', '', '', '', ''),
-(7, 'skowqo', 'skksksks', 'ksksks@gmail.com', '', '', '', '', ''),
-(8, 'skowqo', 'skksksks', 'ksksks@gmail.com', '', '', '', '', ''),
-(9, 'ekek', '', '', '', '', '', '', ''),
-(10, 'sss', '', '', '', '', '', '', '');
+INSERT INTO `users` (`ID`, `FirstName`, `LastName`, `Email`, `Password`, `profile`, `NationID`, `Pending`) VALUES
+(26, 'sksk', 'sksks', 'wkw@gmail.com', '12345', '', '12345678901234', 'No'),
+(27, 'king', 'amrousy', 'zzzki@gmail.com', '12345', '', '12345678901234', 'No'),
+(28, 'test', 'test', 'testking@gmail.com', '12345', '', '12345678901234', 'No'),
+(29, 'zz', 'zz', 'zzze@gmail.com', '12345', '', '12345678901234', 'No'),
+(30, 'wkkw', 'wkwk', 'kingsosos@gmail.com', '12345', '', '12345678901234', ''),
+(31, 'king', 'amrousy', 'soosy@gmail.com', '12345', '', '12345678901234', '');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`SuggestionID`);
 
 --
 -- Indexes for table `guests`
@@ -152,16 +177,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `SuggestionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `StaffID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `StaffID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

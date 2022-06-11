@@ -125,7 +125,6 @@ body {
         </div>
 		<div class="form-group">
             <input type="text" class="form-control" id='Nationalid' name="Nationalid" placeholder="Enter National ID (14 Digit)" min="14" max="14" required="required">
-			<label for="nationIDError" id="nationIDError"></label>
         </div>
 		<div class="form-group">
             <input type="password" class="form-control" id='Password' name="Password" placeholder="Password" required="required">
@@ -157,43 +156,43 @@ if (isset($_POST['submit'])) {
 		    echo "<script>
 		    alert('This Email is already taken, choose another one')
 		    </script>";
-		    trigger_error("Email taken");
+		    // trigger_error("Email taken");
 	    }
         else if ($_POST['Password'] !== $_POST['ConfirmPassword']) {
 		    echo "<script>
 		    alert('Those passwords doesn\'t match, please try again')
 		    </script>";
-            trigger_error("Wrong passwords");
+            // trigger_error("Wrong passwords");
         }
         else if (strlen($_POST['Password']) < 5) {
             echo "<script>
             alert('Password length should be at least 5 characters, try again')
             </script>";
-            trigger_error("Password length");
+            // trigger_error("Password length");
         }
         else if (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) {
             echo "<script>
 		    alert('Invalid Email Address')
 		    </script>";
-            trigger_error("Password length");
+            // trigger_error("Password length");
         }
         else if (str_contains($_POST['Email'], "@grnd.com")) {
             echo "<script>
 		    alert('You can\'t use this email domain, choose another email')
 		    </script>";
-            trigger_error("Wrong Email");
+            // trigger_error("Wrong Email");
         }
         else if (strlen($_POST['Nationalid']) != 14) {
             echo "<script>
 		    alert('Invalid National ID number')
 		    </script>";
-            trigger_error("Invalid National ID");
+            // trigger_error("Invalid National ID");
         }
         else if (!is_numeric($_POST['Nationalid'])) {
             echo "<script>
 		    alert('Enter a valid National ID')
 		    </script>";
-            trigger_error("Invalid National ID");
+            // trigger_error("Invalid National ID");
         }
         else {
             session_unset();
@@ -203,9 +202,6 @@ if (isset($_POST['submit'])) {
             $lastname = $_POST['Lname'];
             $email = $_POST['Email'];
             $password = $_POST['Password'];
-            echo "<script>
-            alert('".$password."')
-            </script>";
             $nationid = $_POST['Nationalid'];
             $sql = "INSERT INTO users(FirstName, LastName, Email, Password, NationID) values('".$firstname."','".$lastname."','".$email."','".$password."','".$nationid."')";
             $result = mysqli_query($conn, $sql);
