@@ -1,4 +1,8 @@
 <?php
+if(session_id() == '') {
+    session_start();
+}
+require_once 'dbconnection.php';
     session_unset();
 	setcookie("Email", "", time() - 10000);
 	setcookie("Password", "", time() - 10000);
@@ -6,13 +10,10 @@
 	$lastname = $_POST['Lname'];
 	$email = $_POST['Email'];
 	$password = $_POST['Password'];
-	$nationid = $_POST['Nationalid'];
+	$nationid = $_POST['NationID'];
 	$sql = "INSERT INTO users(FirstName, LastName, Email, Password, NationID) values('".$firstname."','".$lastname."','".$email."','".$password."','".$nationid."')";
 	$result = mysqli_query($conn, $sql);
-	if ($result) {
-		echo "<script>
-		alert('Registered Successfully, Please wait until the recepionist accept your request');
-		window.location.href ='Login.php';
-		</script>";
-	}
+    if ($result) {
+        exit();
+    }
     ?>

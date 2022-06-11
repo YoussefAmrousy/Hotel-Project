@@ -11,7 +11,7 @@ if(session_id() == '') {
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link rel="icon" href="favicon.png">
 <style>
 body {
@@ -96,8 +96,8 @@ body {
  background-size: cover;
 }
 
-#NationalIDError {
-	color: red;
+.text-center {
+	color: black;
 }
 </style>
 </head>
@@ -233,43 +233,34 @@ if (isset($_SESSION['Email'])) {
 	// }
 		// }
 ?>
-<script>
-	var idEror, confPass, passEror, emailEror;
-	$("#Email").keyup(function() {
-		var email = this.value;
-		if (email.length != "") {
-			// $.ajax({
-			// 	url: "validateEmail.php",
-			// 	type: "POST",
-            //     data: {email: email},
-            //     success: function(data) {
-			// 		var json = JSON.parse(data);
-			// 		if (json.success) {
-			// 			alert("bdany");
-			// 			$('#Email').css('border-color', 'red');
-			// 			emailEror = true;
-			// 		}
-			// 		else {
-			// 			$('#Email').css('border-color', 'green');
-			// 			emailEror = false;
-			// 		}
-			// 	},
-			// 	error: function() {
-			// 	}
-			// });
-			$.ajax({
-                                        url: "validateEmail.php",
-                                        type: "POST",
-                                        data: {email:email},
-                                        success: function(res) {
-                                           alert("Deleted");
-                                        },
-                                        error: function(res) {
-                                            alert("Unable to delete Account");
-                                        }
-                                    });
-		}
-	})
+<script type="text/javascript">
+	$(document).ready(function() {
+	// var idEror, confPass, passEror, emailEror;
+	// $("#Email").keyup(function() {
+	// 	var email = this.value;
+	// 	if (email.length != "") {
+	// 		if (email.includes("@") & email.includes(".com", email.length-4)) {
+	// 			$.ajax({
+	// 				url: "validateEmail.php",
+	// 				type: "POST",
+    //             	data: 'email=' + email,
+    //             	success: function(data) {
+	// 					if (data == 1) {
+	// 						alert("bdany");
+	// 						$('#Email').css('border-color', 'red');
+	// 						emailEror = true;
+	// 						// $('#Email').css('border-color', 'green');
+	// 						// emailEror = false;
+	// 					}
+	// 				},
+	// 				error: function() {
+	// 					alert("yarab");
+	// 				}
+	// 			});
+	// 		}
+	// 	}
+	// })
+
 	$("#Nationalid").keyup(function(){
 		if(jQuery.isNumeric(this.value) == false || this.value.length != 14){
 			$('#Nationalid').css('border-color', 'red');
@@ -302,22 +293,28 @@ if (isset($_SESSION['Email'])) {
 			passEror = false;
 		}
 	})
-	// $("form").on("submit", function(e){
-	// 	if(idEror == true || confPass == true || passEror == true) {
-	// 		alert('This information is irreliable, please edit the submitted information');
-	// 		window.href = "SignUp.php";
-  	// 	}
-		// else {
-		// 	$.ajax({
-		// 		url: "Register.php",
-        //         type: "POST",
-        //         data: {id:id},
-        //         success: function(res) {
-        //         $(btn).closest('tr').remove();
-		// 		}
-		// 	});
-		// }
-	// })
+	$("form").on("submit", function(e){
+		if(idEror == true || confPass == true || passEror == true) {
+			alert('This information is irreliable, please edit the submitted information');
+			window.href = "SignUp.php";
+  		}
+		else {
+			var fname = document.getElementById("Fname").value;
+			var lname = document.getElementById("Lname").value;
+			var email = document.getElementById("Email").value;
+			var nationID = document.getElementById("Nationalid").value;
+			var password = document.getElementById("Password").value;
+			$.ajax({
+				url: "Register.php",
+                type: "POST",
+                data: {Fname: fname, Lname: lname, Email: email, NationID: nationID, Password: password},
+                success: function(res) {
+					alert("raye2");
+				}
+			});
+		}
+	})
+	})
 </script>
 </body>
 </html>

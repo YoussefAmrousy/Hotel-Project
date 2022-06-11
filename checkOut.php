@@ -101,36 +101,58 @@ p{
 <div class="mainscreen">
       <div class="card">
         <div class="leftside">
-          <img
-            src="https://c4.wallpaperflare.com/wallpaper/359/481/80/luxury-hotel-room-bedroom-furniture-set-wallpaper-preview.jpg"
-            class="product"
-          />
+          <img src="https://c4.wallpaperflare.com/wallpaper/359/481/80/luxury-hotel-room-bedroom-furniture-set-wallpaper-preview.jpg" class="product">
         </div>
         <div class="rightside">
           <form action="" method="POST">
             <h1>CheckOut</h1>
             <h2>Payment Information</h2>
             <p>Cardholder Name</p>
-            <input type="text" class="inputbox" name="name" required />
+            <input type="text" class="inputbox" name="name" required="required">
             <p>Card Number</p>
-            <input type="text" class="inputbox" name="visacard" required />
+            <input type="text" class="inputbox" name="visacard" required="required">
             <p>Card Type</p>
-            <select class="inputbox" name="card_type" required>
+            <select class="inputbox" name="card_type" required="required">
               <option value="">--Select a Card Type--</option>
               <option value="Visa">Visa</option>
               <option value="MasterCard">MasterCard</option>
             </select>
-<div class="expcvv">
-            <p>Expiry</p>
-            <input type="date" class="inputbox" name="expiry" required />
+            <div class="expcvv">
+            <p>Expiry </p>
+            <input type="date" class="inputbox" name="expiry" min=<?php $mindate = date("Y-m-d"); echo $mindate; ?> max="2030-12-31" required="required">
             <p>CVV</p>
-            <input type="text" class="inputbox" name="cvv" required />
-        </div>
+            <input type="text" class="inputbox" name="cvv" required="required">
+            </div>
             <p></p>
-            <button type="submit" class="button">CheckOut</button>
+            <input type="submit" class="button" name="checkout" value="Check Out"></button>
           </form>
         </div>
       </div>
     </div>
+    <?php
+    if(session_id() == '') {
+        session_start();
+    }
+    require 'errorHandling.php';
+    require_once 'dbconnection.php';
+    if (isset($_POST['checkout'])) {
+        if (is_numeric($_POST['visacard']) && !is_numeric($_POST['name']) && ctype_alpha($_POST['name']) && strlen($_POST['cvv']) == 3) {
+            $sql = "UPDATE rooms SET Paid='Yes' WHERE UserID=".$_SESSION['ID'];
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                echo "<script>
+                window.location.href='home.php';
+                alert('Room was booked successfully, Hope you enjoy your stay')
+                </script>";
+            }
+        }
+        else {
+            echo "<script>
+            alert('Invalid Credit Card Credentials')
+            </script>";
+            trigger_error("Invalid Credit Card Credentials");
+        }
+    }
+    ?>
 </body>
 </html>
