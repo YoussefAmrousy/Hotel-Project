@@ -32,7 +32,7 @@ require_once 'dbconnection.php';
   <a href="home.php" class="w3-bar-item w3-button w3-red w3-mobile"><img src="favicon.png" width="30" height="27"></a>
   <a href="Rooms.php" class="w3-bar-item w3-button w3-red w3-mobile">Rooms</a>
   <a href="about.php" class="w3-bar-item w3-button w3-red w3-mobile">About</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-red w3-mobile">Contact</a>
+  <a href="contact.php" class="w3-bar-item w3-button w3-red w3-mobile">Contact</a>
 
         <?php if (isset($_SESSION['Fname'])) {
             echo " 
