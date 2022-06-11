@@ -21,7 +21,7 @@
             Password: <input type="text" name="password" required="required"><br>
             Role: <select name="role">
                 <option value="Receptionist">Receptionist</option>
-                <option value="QA">Quality Assurance</option>
+                <option value="QA">Quality Control</option>
             </select><br>
             <input type="submit" name="add" value="Add Account">
         </form>
